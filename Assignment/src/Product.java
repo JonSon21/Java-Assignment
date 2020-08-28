@@ -1,6 +1,4 @@
-import java.io.Serializable;
-
-class Product implements Serializable {
+class Product {
     private String prodId;
     private String prodName;
     private String prodType;
