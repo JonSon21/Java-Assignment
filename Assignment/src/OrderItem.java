@@ -9,16 +9,14 @@
 
 public class OrderItem extends Product{
 
-	private Product product;
     private int quantity = 0;
     
-    public OrderItem(Product product, int quantity){ 
-    	this.product = product;
+    public OrderItem(int quantity){ 
     	this.quantity = quantity;
     }
     
-    public OrderItem(String productId, String productDescription, double price, int quantity){ 
-    	product = new Product(productId, productDescription, price);
+    public OrderItem(String prodId, String prodName, String prodType, double price, int quantity){ 
+    	super(prodId, prodName, prodType, price);
     	this.quantity = quantity;
     }
     
