@@ -8,9 +8,19 @@ class UserDetails{
     protected String email;
     protected String icNo;
 
+    //Constructor
     public UserDetails(){
     }
 
+    public UserDetails(UserDetails userDetails) {
+        firstName = userDetails.firstName;
+        lastName = userDetails.lastName;
+        gender = userDetails.gender;
+        phoneNo = userDetails.phoneNo;
+        email = userDetails.email;
+        icNo = userDetails.icNo;
+    }
+     
     public UserDetails(String firstName, String lastName, char gender, String phoneNo, String email, String icNo){
     	
         this.firstName = firstName;
