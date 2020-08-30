@@ -10,7 +10,7 @@
 public class ProductDetails {
     
     public static void main(String[] args) {
-    	Product product = new Product("Jello Ice","Drink",12.0,20);
+    	Product product = new Product("Jello Ice","Drink",12.0);
     	System.out.println(product);
    		
     }
