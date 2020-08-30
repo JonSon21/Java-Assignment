@@ -1,3 +1,5 @@
+package user;
+
 class Manager extends UserDetails {
 	
 	private String managerID;
@@ -7,8 +9,8 @@ class Manager extends UserDetails {
     public Manager() {
     }
 
-    public Manager(UserDetails userDetails, String managerID, String password, String jobTitle) {
-        super(userDetails);
+    public Manager(String firstName, String lastName, char gender, String phoneNo, String email, String icNo,String managerID, String password, String jobTitle) {
+        super(firstName,lastName,gender,phoneNo,email,icNo);
         this.managerID = managerID;
         this.password = password;
         this.jobTitle = jobTitle;
