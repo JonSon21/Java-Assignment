@@ -1,5 +1,6 @@
 package user;
-
+import java.util.ArrayList;
+import java.util.Scanner;
 class Staff extends UserDetails {
     
     private String jobTitle;
@@ -30,6 +31,39 @@ class Staff extends UserDetails {
         this.staffID = staffID;
         this.password = password;
     }
+    
+    
+	public void displaySalesHistory(ArrayList<OrderList> orderList) {
+        Scanner scanner = new Scanner(System.in);
+        int selection;
+        boolean valid = true;
+
+        System.out.println("Transaction History");
+        System.out.println("----------------------------");
+        System.out.printf("%-4s%-10s%10s\n", "No.", "Order ID", "Total (RM)");
+        System.out.println("-----------------------");
+        for (int i = 0; i < orderList.size(); i++) {
+            System.out.printf("%-4d%-10s%10.2f\n", i + 1, orderList.get(i).getOrderNo(), orderList.get(i).getTotalAmount());
+        }
+        do {
+            System.out.print("Please select to display details: ");
+            try{
+                selection = scanner.nextInt();
+                if(selection < 1 || selection > orderList.size()){
+                    System.out.println("Please enter a valid number\n");
+                    valid = false;
+                } else {
+                    valid = true;
+                }
+            }catch (Exception e){
+                System.out.println("Please enter a valid number");
+                scanner.nextLine();
+                valid = false;
+            }
+        }while(!valid);
+        orderList.get(selection - 1).receipt(true, orderList.get(selection - 1).getAmount());
+    }
+
 
     //Getter
     public String getStaffID() {
