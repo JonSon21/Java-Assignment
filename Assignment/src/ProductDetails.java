@@ -10,8 +10,12 @@
 public class ProductDetails {
     
     public static void main(String[] args) {
-    	Product product = new Product("Jello Ice","Drink",12.0);
-    	System.out.println(product);
-   		
+    	Product product = new Product("Nugget","Food",8.00);
+    	System.out.println(product);	
+    }
+    
+        public static void main(String[] args) {
+    	Product product = new Product("Fish Ball","Food",8.00);
+    	System.out.println(product);	
     }
 }
