@@ -21,12 +21,12 @@ class Login {
         this.password = password;
     }
     // Login function for staff
-    public boolean staffLogin(ArrayList<staff> staffsArray) {
+    public boolean staffLogin(ArrayList<staff> staffArray) {
 
-        for (i = 0; i < employeesArray.size(); i++) {
+        for (i = 0; i < staffArray.size(); i++) {
 
             // Compare username and password with the database
-            if (staffsArray.get(i).getstaffID().equals(username)
+            if (staffArray.get(i).getstaffID().equals(username)
                     && staffArray.get(i).getPassword().equals(password)) {
                 return true;
                 // Only output wrong username or password until the end element of the array if

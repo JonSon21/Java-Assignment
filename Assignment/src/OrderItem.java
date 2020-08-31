@@ -41,8 +41,9 @@ public class OrderItem{
         this.quantity = quantity;
     }
     
+    @Override
     public String toString(){
-    	return "\nItem: " + product.getProdName() + "\nQuantity: " + quantity;
+    	return String.format(product.toString() + "Item: \n" + product.getProdName() + "Quantity: \n" + quantity);
     }
 
     
