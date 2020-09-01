@@ -1,89 +1,118 @@
-/**
- * @(#)OrderList.java
- *
- *
- * @author 
- * @version 1.00 2020/8/14
- */
- package product;
- 
- 
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class OrderList {
+class OrderList implements Serializable {
 
-	private String orderNo;
-	private static int nextOrderNo = 1;
-	private ArrayList<OrderItem> orderItem = new ArrayList<>();
-	private static int itemCount = 0;
-	private double totalAmount = 0;
-	private double amountPaid = 0; // Amount Paid
-	
-	private Scanner sc = new Scanner(System.in);
-	
-	private String formattedDate;
+    private String orderNo;
+    private static int NoOfOrder = 1;
+    private ArrayList<OrderItem> orderItem = new ArrayList<>();
+    private double totalAmount = 0;
+    
+    //itemCounter represents number of item listed within the order list
+    private int itemCounter = 0;
+    private double amount;
+    
+    //Initialize local date time object
+    private String formattedDate;
+
 
     public OrderList() {
-    	LocalDateTime dateObj = LocalDateTime.now();
-    	DateTimeFormatter formatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-    	
-    	formattedDate = dateObj.format(formatObj);
-        orderNo = String.format("I%06d", nextOrderNo++);
+        LocalDateTime dateObj = LocalDateTime.now();
+        DateTimeFormatter formatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        
+        //Changes the date time format to dd-MM-yyyy HH:mm:ss
+        formattedDate = dateObj.format(formatObj);
+        this.orderNo = String.format("ITEM #%06d", NoOfOrder++);
     }
-    
-    public boolean addOrderItem (OrderItem item){
-    	try{
-    		orderItem.add(item);
-    		totalAmount += orderItem.get(itemCount).getAmount();
-    		
-    		itemCount++;
-    	}catch (Exception e){
-    		System.out.format("Failed to add item #%s to order #%s.\n", itemCount+1, orderNo);
-    		return false;
-    	}
-    	return true;
+
+    // Add an order item into the OrderList array
+    public boolean addOrderItem(OrderItem oi) {
+        for (int i = 0; i < itemCounter; i++) {
+        	
+            //Compare product with the database
+            if (orderItem.get(i).getProduct() == oi.getProduct() && orderItem.get(i).roomCheck(1)) {
+            	
+                //Adds amount of i element of orderItem to the totalAmount
+                totalAmount += orderItem.get(i).getAmount();
+
+                return true;
+            }
+        }
+
+        try{
+            //Adds element to the orderItem Array
+            orderItem.add(oi);
+            orderItem.get(itemCounter).roomCheck(1);
+            orderItem.get(itemCounter).setQuantity(1);
+            totalAmount += orderItem.get(itemCounter).getAmount();
+
+            itemCounter++;
+            
+        }catch(Exception e){
+        	
+            System.out.format("Failed to add item #%s to order #%s.\n", itemCounter + 1, orderNo);
+            return false;
+        }
+        return true;
     }
-    
-    public void removeOrderItem (int list){
-    		list--;
-            //Remove the list element of the orderItem Array
-            orderItem.remove(list);
-            itemCount--;
+
+	// Edit the quantity of an order item
+    public void editQuantity(int index, int quantity){ 
+        index--; // Setting it according to the array elements.
+        if(quantity != 0) {
+            if(orderItem.get(index).roomCheck(quantity - orderItem.get(index).getQuantity())) {
+            	
+                orderItem.get(index).setQuantity(quantity);
+                totalAmount += orderItem.get(index).getAmount();
+                
+            }
+        }else {
+            if(orderItem.get(index).roomCheck(quantity - orderItem.get(index).getQuantity())) {
+            	
+                orderItem.get(index).setQuantity(quantity);
+                totalAmount += orderItem.get(index).getAmount();
+                
+                //Remove the list element of the orderItem Array
+                orderItem.remove(index);
+                itemCounter--;
+            }
+        }
     }
-    
-    public void receipt(boolean paid, double amountPaid){
-        this.amountPaid = amountPaid;
+
+	// Print receipt
+    public void receipt(boolean paid, double amount){ 
+        this.amount = amount;
         if(paid) {
             System.out.println("Receipt");
             System.out.println("=======");
         }
-        System.out.printf("%-4s%-30s%-9s%-7s%-8s\n\n","No.","Product Name","Quantity","Price","Subtotal");
-        for(int i = 0; i < itemCount; i++) {
-        System.out.printf("%-4d%-30s%-9d%-7.2f%-8.2f\n", i+1, orderItem.get(i).getProduct().getName(), orderItem.get(i).getQuantity(), orderItem.get(i).getProduct().getPrice(),orderItem.get(i).getAmount());
+        System.out.printf("%-4s%-30s%-9s%-7s%-8s\n\n","No.","Product Name","Quantity","Price","SubTotal");
+        for(int i = 0; i < itemCounter; i++) {
+            System.out.printf("%-4d%-30s%-9d%-7.2f%-8.2f\n",
+            i+1,orderItem.get(i).getProduct().getProdName(), orderItem.get(i).getQuantity(), 
+            orderItem.get(i).getProduct().getPrice(),orderItem.get(i).getProduct().getPrice() * orderItem.get(i).getQuantity());
         }
         System.out.printf("%-50s%-8.2f\n","Total", totalAmount);
         if(paid){
-            System.out.printf("%-50s%-8.2f\n","Ringgit Malaysia", this.amountPaid);
-            System.out.printf("%-50s%-8.2f\n\n","Change", this.amountPaid - totalAmount);
+            System.out.printf("%-50s%-8.2f\n","Ringgit Malaysia", this.amount);
+            System.out.printf("%-50s%-8.2f\n\n","Change", this.amount - totalAmount);
             System.out.println("Paid: " + formattedDate + "\n");
         }
     }
-    
-    
-    
+
     //Setter
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
     }
 
-    public void setNextOrderNo(int nextOrderNo) {
-        this.nextOrderNo = nextOrderNo;
+    public static void setNoOfOrder(int noOfOrder) {
+        OrderList.noOfOrder = noOfOrder;
     }
 
-    public void setOrderItemList(ArrayList<OrderItem> orderItem) {
+    public void setOrderItem(ArrayList<OrderItem> orderItem) {
         this.orderItem = orderItem;
     }
 
@@ -91,12 +120,12 @@ public class OrderList {
         this.totalAmount = totalAmount;
     }
 
-    public void setItemCount(int itemCount) {
-        this.itemCount = itemCount;
+    public void setItemCounter(int itemCounter) {
+        this.itemCounter = itemCounter;
     }
 
-    public void setAmountPaid (double amountPaid) {
-        this.amountPaid = amountPaid;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public void setFormattedDate(String formattedDate) {
@@ -108,8 +137,8 @@ public class OrderList {
         return orderNo;
     }
 
-    public static int getNextOrderNo() {
-        return nextOrderNo;
+    public static int getNoOfOrder() {
+        return noOfOrder;
     }
 
     public ArrayList<OrderItem> getOrderItem() {
@@ -120,17 +149,15 @@ public class OrderList {
         return totalAmount;
     }
 
-    public int getItemCount() {
-        return itemCount;
+    public int getItemCounter() {
+        return itemCounter;
     }
 
     public String getFormattedDate() {
         return formattedDate;
     }
 
-    public double getAmountPaid() {
-        return amountPaid;
+    public double getAmount() {
+        return amount;
     }
-    
-    
 }
