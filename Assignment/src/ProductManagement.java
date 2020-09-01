@@ -1,6 +1,6 @@
 package product;
 
-import product.ProductConsole; 
+import product.ProductConsole;
 /**
  *
  * @author Kevin Lim
