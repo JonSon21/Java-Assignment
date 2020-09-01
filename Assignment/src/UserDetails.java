@@ -1,6 +1,8 @@
-package user;
+import java.io.*;
+import java.util.*;
 
-class UserDetails{
+class UserDetails implements Serializable {
+	
     protected String firstName;
     protected String lastName;
     protected char gender;
@@ -8,11 +10,8 @@ class UserDetails{
     protected String email;
     protected String icNo;
 
-    //Constructor
-    public UserDetails(){
-    }
-
     public UserDetails(UserDetails userDetails) {
+    	
         firstName = userDetails.firstName;
         lastName = userDetails.lastName;
         gender = userDetails.gender;
@@ -20,9 +19,8 @@ class UserDetails{
         email = userDetails.email;
         icNo = userDetails.icNo;
     }
-     
-    public UserDetails(String firstName, String lastName, char gender, String phoneNo, String email, String icNo){
-    	
+
+    public PersonDetails(String firstName, String lastName, char gender, String phoneNo, String email, String icNo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -81,10 +79,15 @@ class UserDetails{
         this.icNo = icNo;
     }
 
-
+    @Override
     public String toString() {
-        return "PersonDetails{" + "firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' +
-                ", gender=" + gender + ", phoneNo='" + phoneNo + '\'' + ", email='" + email + '\'' +
-                ", icNo='" + icNo + '\'' + '}';
+        return "UserDetails{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender=" + gender +
+                ", phoneNo='" + phoneNo + '\'' +
+                ", email='" + email + '\'' +
+                ", icNo='" + icNo + '\'' +
+                '}';
     }
 }

@@ -2,13 +2,14 @@ import java.io.Serializable;
 
 class Product implements Serializable {
 	
+	private static int nextProductId = 1; // To count the amount of products starting from 1
+	
     private String productId;
     private String productName;
     private String productType;
     
     private int roomQuantity;
     private double price;
-    private static int nextProductId = 1; // To count the amount of products starting from 1
 
     // Constructors (Must have prodName and price)
 
