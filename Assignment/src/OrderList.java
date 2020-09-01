@@ -5,7 +5,9 @@
  * @author 
  * @version 1.00 2020/8/14
  */
-
+ package product;
+ 
+ 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.*;
@@ -58,7 +60,7 @@ public class OrderList {
         }
         System.out.printf("%-4s%-30s%-9s%-7s%-8s\n\n","No.","Product Name","Quantity","Price","Subtotal");
         for(int i = 0; i < itemCount; i++) {
-        System.out.printf("%-4d%-30s%-9d%-7.2f%-8.2f\n", i+1, orderItem.get(i).getProduct().getProdName(), orderItem.get(i).getQuantity(), orderItem.get(i).getProduct().getPrice(),orderItem.get(i).getAmount());
+        System.out.printf("%-4d%-30s%-9d%-7.2f%-8.2f\n", i+1, orderItem.get(i).getProduct().getName(), orderItem.get(i).getQuantity(), orderItem.get(i).getProduct().getPrice(),orderItem.get(i).getAmount());
         }
         System.out.printf("%-50s%-8.2f\n","Total", totalAmount);
         if(paid){
@@ -67,6 +69,8 @@ public class OrderList {
             System.out.println("Paid: " + formattedDate + "\n");
         }
     }
+    
+    
     
     //Setter
     public void setOrderNo(String orderNo) {

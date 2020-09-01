@@ -5,7 +5,7 @@
  * @author 
  * @version 1.00 2020/8/23
  */
-
+package product;
 
 public class OrderItem{
 
@@ -43,7 +43,7 @@ public class OrderItem{
     
     @Override
     public String toString(){
-    	return String.format(product.toString() + "Item: \n" + product.getProdName() + "Quantity: \n" + quantity);
+    	return String.format( "Item: \n" + product.getName() + "Quantity: \n" + quantity);
     }
 
     
