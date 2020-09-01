@@ -8,9 +8,7 @@ class Staff extends UserDetails {
     private String password;
     
     //Constructor
-    public Staff(){
-    }
-    
+
     public Staff(String firstName, String lastName, char gender, String phoneNo, String email, String icNo,String staffID,String jobTitle,String password){
         super(firstName,lastName,gender,phoneNo,email,icNo);
         this.jobTitle = jobTitle;
@@ -21,6 +19,7 @@ class Staff extends UserDetails {
     public Staff(String firstName, String lastName, char gender, String phoneNo, String email, String icNo,String jobTitle,String password){
         super(firstName,lastName,gender,phoneNo,email,icNo);
         this.jobTitle = jobTitle;
+        this.staffID = "";
         this.password = password;
                    
     }
@@ -31,9 +30,13 @@ class Staff extends UserDetails {
         this.staffID = staffID;
         this.password = password;
     }
+
+    Staff(Staff staff) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
-	public void displaySalesHistory(ArrayList<OrderList> orderList) {
+/*	public void displaySalesHistory(ArrayList<OrderList> orderList) {
         Scanner scanner = new Scanner(System.in);
         int selection;
         boolean valid = true;
@@ -63,8 +66,7 @@ class Staff extends UserDetails {
         }while(!valid);
         orderList.get(selection - 1).receipt(true, orderList.get(selection - 1).getAmount());
     }
-
-
+*/
     //Getter
     public String getStaffID() {
         return staffID;
