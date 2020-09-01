@@ -22,6 +22,8 @@ public class OrderList {
 	private double totalAmount = 0;
 	private double amountPaid = 0; // Amount Paid
 	
+	private Scanner sc = new Scanner(System.in);
+	
 	private String formattedDate;
 
     public OrderList() {

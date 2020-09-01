@@ -20,8 +20,7 @@ class Staff extends UserDetails {
         super(firstName,lastName,gender,phoneNo,email,icNo);
         this.jobTitle = jobTitle;
         this.staffID = "";
-        this.password = password;
-                   
+        this.password = password;                 
     }
     
     public Staff(UserDetails userDetails,String staffID, String jobTitle, String password) {
@@ -36,7 +35,30 @@ class Staff extends UserDetails {
     }
     
     
-/*	public void displaySalesHistory(ArrayList<OrderList> orderList) {
+    public void payment(OrderList orderList){
+        Scanner scanner = new Scanner(System.in);
+        double amount = 0;
+        do {
+            System.out.print("Please enter the amount of RM you want to pay > ");
+            try {
+                amount = scanner.nextDouble();
+                if(amount < orderList.getTotalAmount()){
+                    System.out.println("Please pay in full price of items.\n");
+                }
+            }catch (Exception e){
+                System.out.println("Please enter an amount.\n");
+                scanner.nextLine();
+            }
+        } while (amount < orderList.getTotalAmount());
+        System.out.printf("RM%.2f entered.\n", amount);
+        orderList.receipt(true, amount);
+        
+        orderListList.add(orderList);
+    }
+    
+    
+    
+	public void displaySalesHistory(ArrayList<OrderList> orderListList) {
         Scanner scanner = new Scanner(System.in);
         int selection;
         boolean valid = true;
@@ -45,7 +67,7 @@ class Staff extends UserDetails {
         System.out.println("----------------------------");
         System.out.printf("%-4s%-10s%10s\n", "No.", "Order ID", "Total (RM)");
         System.out.println("-----------------------");
-        for (int i = 0; i < orderList.size(); i++) {
+        for (int i = 0; i < orderListList.size(); i++) {
             System.out.printf("%-4d%-10s%10.2f\n", i + 1, orderList.get(i).getOrderNo(), orderList.get(i).getTotalAmount());
         }
         do {
@@ -66,7 +88,7 @@ class Staff extends UserDetails {
         }while(!valid);
         orderList.get(selection - 1).receipt(true, orderList.get(selection - 1).getAmount());
     }
-*/
+
     //Getter
     public String getStaffID() {
         return staffID;
