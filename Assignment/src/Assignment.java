@@ -35,7 +35,7 @@ public class Assignment{
         filepath[0] = "../obj/person.bin";
         filepath[1] = "../obj/managers.bin";
         filepath[2] = "../obj/branch.bin";
-        filepath[3] = "../obj/employees.bin";
+        filepath[3] = "../obj/staff.bin";
         filepath[4] = "../obj/product.bin";
         filepath[5] = "../obj/orderItem.bin";
         filepath[6] = "../obj/orderLists.bin";
