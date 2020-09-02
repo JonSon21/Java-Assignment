@@ -290,7 +290,7 @@ public class Main {
     }
 
     private static void bootupScreen() {
-                System.out.println(" _                   _____                 _             ");
+        System.out.println(" _                   _____                 _             ");
         System.out.println("| |                 /  __ \\               (_)            ");
         System.out.println("| |    _   _ _ __   | /  \\/ ___  _ __ ___  _ _ __   __ _ ");
         System.out.println("| |   | | | | '_ \\  | |    / _ \\| '_ ` _ \\| | '_ \\ / _` |");
@@ -299,7 +299,6 @@ public class Main {
         System.out.println("                                                    __/ |");
         System.out.println("                                                   |___/ ");
         System.out.println("Welcome to Lun Coming Karaoke !!!\n");
-
 
     }
 }
