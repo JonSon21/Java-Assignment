@@ -1,7 +1,6 @@
 import java.io.Serializable;
 
 class OrderItem implements Serializable {
-	
     private Product product;
     private double amount;
     private int quantity = 0;
@@ -41,15 +40,16 @@ class OrderItem implements Serializable {
     }
 
     public boolean stockOut(int quantity){
+    	
         //To check if the stock quantity is enough
-        if(product.getItemQuantity()> quantity){
+        if(product.getStockQuantity()> quantity){
         	
             //Deduct the product stock quantity
-            product.setItemQuantity(product.getItemQuantity()-quantity);
-            this.quantity++;
+            product.setStockQuantity(product.getStockQuantity()- quantity);
+            this.quantity ++;
             amount = quantity * product.getPrice();
-            
             return true;
+            
         }
         else {
             System.out.println("No quantity left.");

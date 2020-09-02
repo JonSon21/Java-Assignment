@@ -8,25 +8,24 @@ class Login {
 	// Variables
     private String username;
     private String password;
-    private int i;
+    private int index;
 
     public Login(String username, String password) {
         this.username = username;
         this.password = password;
     }
-    
-    // Login function for staff
-    public boolean staffLogin(ArrayList<Staff> staffArray) {
+    // Login function for employee
+    public boolean employeeLogin(ArrayList<Employee> eArray) {
 
-        for (i = 0; i < staffArray.size(); i++) {
+        for (index = 0; index < eArray.size(); index++) {
 
             // Compare username and password with the database
-            if (staffArray.get(i).getStaffID().equals(username)
-                    && staffArray.get(i).getPassword().equals(password)) {
+            if (eArray.get(index).getEmployeeID().equals(username)
+                    && eArray.get(index).getPassword().equals(password)) {
                 return true;
                 
                 // Only output wrong username or password if
-                // the username and password is not found in the database
+                // the username and password is not present in the file
             }
         }
         return false;
@@ -42,13 +41,13 @@ class Login {
         }
     }
 
-    // Login time (Get Current Time)
+    // Login time
     public String currentTime() {
     	
         Date now = new Date();
         SimpleDateFormat formatTime = new SimpleDateFormat("hh.mm aa");
-
         String loginTime = formatTime.format(now);
+
         return loginTime;
     }
 
@@ -61,7 +60,7 @@ class Login {
     }
 
     public int getIndex() {
-        return i;
+        return index;
     }
 
     public void setUsername(String username) {

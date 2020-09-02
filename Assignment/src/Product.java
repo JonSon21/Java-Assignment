@@ -3,65 +3,66 @@ import java.io.Serializable;
 class Product implements Serializable {
 	
 	// Variables
-    private String productId;
-    private String productName;
-    private String productType;
-    private int itemQuantity;
+    private String prodId;
+    private String prodName;
+    private String prodType;
+    private int stockQuantity;
     private double price;
-    private static int nextProductId = 1;
+    private static int nextProdId = 1;
 
-    // Constructor with all data available execept prodId (For new items)
-    public Product(String productName, String productType, double price, int itemQuantity) {
-        this.productId = String.format("P%04d", nextProductId++);
-        this.productName = productName;
-        this.productType = productType;
-        this.itemQuantity = itemQuantity;
+    // Constructors (Must have prodName and price)
+
+    // Constructor with all data available
+    public Product(String prodName, String prodType, double price, int stockQuantity) {
+        this.prodId = String.format("P%04d", nextProdId++);
+        this.prodName = prodName;
+        this.prodType = prodType;
+        this.stockQuantity = stockQuantity;
         this.price = price;
     }
 
-	// Constructor with all data available
-    public Product(String productId, String productName, String productType, double price, int itemQuantity) {
-        this.productId = productId;
-        this.productName = productName;
-        this.productType = productType;
-        this.itemQuantity = itemQuantity;
+    public Product(String prodId, String prodName, String prodType, double price, int stockQuantity) {
+        this.prodId = prodId;
+        this.prodName = prodName;
+        this.prodType = prodType;
+        this.stockQuantity = stockQuantity;
         this.price = price;
     }
 
 
     // Constructor without stockQuantity only
-    public Product(String productName, String productType, double price) {
-        this(productName, productType, price, 0);
+    public Product(String prodName, String prodType, double price) {
+        this(prodName, prodType, price, 0);
     }
 
     // Constructor without prodType only
-    public Product(String productName, double price, int itemQuantity) {
-        this(productName, "n/a", price, itemQuantity);
+    public Product(String prodName, double price, int stockQuantity) {
+        this(prodName, "n/a", price, stockQuantity);
 
     }
 
     // Constructor without prodType and stockQuantity
-    public Product(String productName, double price) {
-        this(productName, "n/a", price, 0);
+    public Product(String prodName, double price) {
+        this(prodName, "n/a", price, 0);
     }
 
     // Setter
 
     // Note: Necessary when the database already have some product.
-    public static void setNextProductId(int nextProductId) {
-        Product.nextProductId = nextProductId;
+    public static void setNextProdId(int nextProdId) {
+        Product.nextProdId = nextProdId;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProdName(String prodName) {
+        this.prodName = prodName;
     }
 
-    public void setProductType(String productType) {
-        this.productType = productType;
+    public void setProdType(String prodType) {
+        this.prodType = prodType;
     }
 
-    public void setItemQuantity(int itemQuantity) {
-        this.itemQuantity = itemQuantity;
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 
     public void setPrice(double price) {
@@ -69,35 +70,35 @@ class Product implements Serializable {
     }
 
     // Getter
-    public String getProductId() {
-        return productId;
+    public String getProdId() {
+        return prodId;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getProdName() {
+        return prodName;
     }
 
-    public String getProductType() {
-        return productType;
+    public String getProdType() {
+        return prodType;
     }
 
-    public int getItemQuantity() {
-        return itemQuantity;
+    public int getStockQuantity() {
+        return stockQuantity;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public static int getNextProductId() {
-        return nextProductId;
+    public static int getNextProdId() {
+        return nextProdId;
     }
 
     // Methods
     @Override
     public String toString() {
         return String.format(
-                "Product: {Product ID: %s\nProduct Name: %s\nProduct Type: %s\nItem Quantity: %d\nPrice: RM %,.2fea\n}", productId,
-                productName, productType, itemQuantity, price);
+                "Product: {Product ID: %s\nProduct Name: %s\nProduct Type: %s\nItem Quantity: %d\nPrice: RM %,.2fea\n}", prodId,
+                prodName, prodType, stockQuantity, price);
     }
 }

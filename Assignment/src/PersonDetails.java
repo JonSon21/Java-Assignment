@@ -1,7 +1,6 @@
 import java.io.Serializable;
 
-class UserDetails implements Serializable {
-	
+class PersonDetails implements Serializable {
     protected String firstName;
     protected String lastName;
     protected char gender;
@@ -9,19 +8,19 @@ class UserDetails implements Serializable {
     protected String email;
     protected String icNo;
 
-    public UserDetails(){
+    public PersonDetails(){
     }
 
-    public UserDetails(UserDetails userDetails) {
-        firstName = userDetails.firstName;
-        lastName = userDetails.lastName;
-        gender = userDetails.gender;
-        phoneNo = userDetails.phoneNo;
-        email = userDetails.email;
-        icNo = userDetails.icNo;
+    public PersonDetails(PersonDetails personDetails) {
+        firstName = personDetails.firstName;
+        lastName = personDetails.lastName;
+        gender = personDetails.gender;
+        phoneNo = personDetails.phoneNo;
+        email = personDetails.email;
+        icNo = personDetails.icNo;
     }
 
-    public UserDetails(String firstName, String lastName, char gender, String phoneNo, String email, String icNo) {
+    public PersonDetails(String firstName, String lastName, char gender, String phoneNo, String email, String icNo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -82,7 +81,7 @@ class UserDetails implements Serializable {
 
     @Override
     public String toString() {
-        return "UserDetails{" +
+        return "PersonDetails{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", gender=" + gender +

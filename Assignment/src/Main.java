@@ -5,28 +5,28 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
 
-public class Assignment{
-
+public class Main {
     // Use Array to store username for logout
     private static String[] userName = new String[999];
 
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
 
-		Scanner scanner = new Scanner(System.in);
-		
         // Initialize variables and objects
-        int staffOrManager;
+        int employeeOrManager;
         int count = 0;
+        
         boolean loginSuccess;
+        
         String username = null;
         String password = null;
         
-        // Use ArrayList because it is mutable
         Manager manager = new Manager();
         Branch branch = new Branch();
         
-        ArrayList<UserDetails> person = new ArrayList<>();
-        ArrayList<Staff> staff = new ArrayList<>();
+   		// Use ArrayList because it is mutable
+        ArrayList<PersonDetails> person = new ArrayList<>();
+        ArrayList<Employee> employees = new ArrayList<>();
         ArrayList<Product> product = new ArrayList<>();
         ArrayList<OrderItem> orderItem = new ArrayList<>();
         ArrayList<OrderList> orderLists = new ArrayList<>();
@@ -34,9 +34,9 @@ public class Assignment{
         // Initialize all filepath
         String[] filepath = new String[7];
         filepath[0] = "../obj/person.bin";
-        filepath[1] = "../obj/manager.bin";
+        filepath[1] = "../obj/managers.bin";
         filepath[2] = "../obj/branch.bin";
-        filepath[3] = "../obj/staff.bin";
+        filepath[3] = "../obj/employees.bin";
         filepath[4] = "../obj/product.bin";
         filepath[5] = "../obj/orderItem.bin";
         filepath[6] = "../obj/orderLists.bin";
@@ -50,10 +50,10 @@ public class Assignment{
                 ois[i] = new ObjectInputStream(fis[i]);
             }
             
-            person = (ArrayList<UserDetails>) ois[0].readObject();
+            person = (ArrayList<PersonDetails>) ois[0].readObject();
             manager = (Manager) ois[1].readObject();
             branch = (Branch) ois[2].readObject();
-            staff = (ArrayList<Staff>) ois[3].readObject();
+            employees = (ArrayList<Employee>) ois[3].readObject();
             product = (ArrayList<Product>) ois[4].readObject();
             orderItem = (ArrayList<OrderItem>) ois[5].readObject();
             orderLists = (ArrayList<OrderList>) ois[6].readObject();
@@ -67,8 +67,8 @@ public class Assignment{
 
         //Reassign static value
         OrderList.setNextOrderNo(orderLists.size() + 1);
-        Staff.setNextStaffID(staff.size() + 1);
-        Product.setNextProductId(product.size() + 1);
+        Employee.setNextEmployeeID(employees.size() + 1);
+        Product.setNextProdId(product.size() + 1);
 
         bootupScreen();
 
@@ -81,78 +81,68 @@ public class Assignment{
             System.out.print("> ");
 
             try {
-                staffOrManager = scanner.nextInt();
-                scanner.nextLine();
+                employeeOrManager = scan.nextInt();
+                scan.nextLine();
             } catch (Exception e) {
-                scanner.nextLine();
-                staffOrManager = -1;
+                scan.nextLine();
+                employeeOrManager = -1;
             }
 
-            if (staffOrManager == 1 || staffOrManager == 2) {
+            if (employeeOrManager == 1 || employeeOrManager == 2) {
                 System.out.println("Login Page");
                 System.out.println("----------");
                 System.out.print("Username: ");
-                username = scanner.nextLine();
+                username = scan.nextLine();
                 count++;
 
                 System.out.print("Password: ");
-                password = scanner.nextLine();
+                password = scan.nextLine();
             }
 
             for (int i = 0; i < count; i++) {
                 userName[i] = username;
             }
 
-            switch (staffOrManager) {
+            switch (employeeOrManager) {
             case 1:
-                Login stLogin = new Login(username, password);
-                loginSuccess = stLogin.staffLogin(staff);
-                
+                Login eLogin = new Login(username, password);
+                loginSuccess = eLogin.employeeLogin(employees);
                 if (loginSuccess) {
                     System.out.println("Log in successful.\n");
-                    System.out.println("Username: " + stLogin.getUsername() + "\nEmployee Name: "
-                            + staff.get(stLogin.getIndex()).getFirstName() + " "
-                            + staff.get(stLogin.getIndex()).getLastName());
-                    System.out.println(stLogin.getUsername() + " has login at " + stLogin.currentTime() + "\n");
-                    staffMenuOptions(orderItem, orderLists, product);
+                    System.out.println("Username: " + eLogin.getUsername() + "\nEmployee Name: "
+                            + employees.get(eLogin.getIndex()).getFirstName() + " "
+                            + employees.get(eLogin.getIndex()).getLastName());
+                    System.out.println(eLogin.getUsername() + " has login at " + eLogin.currentTime() + "\n");
+                    employeeMenuOptions(orderItem, orderLists, product);
                 } else {
                     System.out.println("Login failed.\n");
                 }
                 break;
-                
             case 2:
-            	
                 Login mngrLogin = new Login(username, password);
                 loginSuccess = mngrLogin.managerLogin(manager);
-                
                 if (loginSuccess) {
                     System.out.println("Log in successful.\n");
                     System.out.println("Username: " + mngrLogin.getUsername() + "\nManager Name: "
-                            + staff.get(mngrLogin.getIndex()).getFirstName() + " "
-                            + staff.get(mngrLogin.getIndex()).getLastName());
-                    managerMenuOptions(product, staff, orderItem, orderLists);
-                } 
-                	
-                else {
+                            + employees.get(mngrLogin.getIndex()).getFirstName() + " "
+                            + employees.get(mngrLogin.getIndex()).getLastName());
+                    managerMenuOptions(product, employees, orderItem, orderLists);
+                } else {
                     System.out.println("Login failed.\n");
                 }
                 break;
-                
             case 0:
-            	
                 // Update all data into files
                 WriteObjectToFile(person, filepath[0]);
                 WriteObjectToFile(manager, filepath[1]);
                 WriteObjectToFile(branch, filepath[2]);
-                WriteObjectToFile(staff, filepath[3]);
+                WriteObjectToFile(employees, filepath[3]);
                 WriteObjectToFile(product, filepath[4]);
                 WriteObjectToFile(orderItem, filepath[5]);
                 WriteObjectToFile(orderLists, filepath[6]);
-                
                 // Terminates the program
                 System.exit(0);
                 break;
-                
             default:
                 System.out.println("No such option!\n");
                 break;
@@ -161,8 +151,6 @@ public class Assignment{
     }
 
     private static void WriteObjectToFile(Object serObj, String filepath) {
-    	
-    	Scanner scan = new Scanner(System.in);
 
         try {
 
@@ -176,16 +164,15 @@ public class Assignment{
         }
     }
 
-    // Staff Menu
-    private static void staffMenuOptions(ArrayList<OrderItem> orderItem, ArrayList<OrderList> orderLists, ArrayList<Product> products) {
-		
-		Scanner scanner = new Scanner(System.in);
+    // Menu Options for employees
+    private static void employeeMenuOptions(ArrayList<OrderItem> orderItem, ArrayList<OrderList> orderLists, ArrayList<Product> products) {
+        Scanner scan = new Scanner(System.in);
         String productCode;
-        Staff staff = new Staff();
+        Employee employee = new Employee();
 
         int menuOption;
         int count = 0;
-		
+
         do {
             System.out.println("Menu Options");
             System.out.println("------------");
@@ -195,13 +182,12 @@ public class Assignment{
             System.out.print("> ");
 
             try {
-                menuOption = scanner.nextInt();
-                scanner.nextLine();
+                menuOption = scan.nextInt();
+                scan.nextLine();
             } catch (Exception e) {
-                scanner.nextLine();
+                scan.nextLine();
                 menuOption = -1;
             }
-            
             switch (menuOption) {
             case 1:
                 // Adds elements of multipleOrderLists array
@@ -209,48 +195,47 @@ public class Assignment{
                 do {
                     do {
                         System.out.print("\nEnter Item ID(1 to checkout, 2 to edit order list, 3 to display products)> ");
-                        productCode = scanner.nextLine();
+                        productCode = scan.nextLine();
 
-                        // If the item list in order list is empty, it will show this output 
-                        // (Validate error)
-                        
+                        // If the item list in order list is empty, it will show this output (Validate
+                        // error)
                         if (("1".equals(productCode) || "2".equals(productCode))
                                 && orderLists.get(orderLists.size() - 1).getItemCount() == 0) {
-                            System.out.println("Please add at least an item!");
+                            System.out.println("Please add some items!");
                         }
                     } while (("1".equals(productCode) || "2".equals(productCode))
                             && orderLists.get(orderLists.size() - 1).getItemCount() == 0);
 
                     // Modify the current element of multipleOrderLists array
                     orderLists.set(orderLists.size() - 1,
-                            staff.modifyOrderList(productCode, orderItem, orderLists, orderLists.size() - 1));
+                            employee.modifyOrderList(productCode, orderItem, orderLists, orderLists.size() - 1));
                             
                 } while (!"1".equals(productCode)); // Loop if user is not checking out
 
                 // After checking out, it goes to payment
-                staff.payment(orderLists.get(orderLists.size() - 1));
+                employee.payment(orderLists.get(orderLists.size() - 1));
                 
                 //Update products details with order items details
                 for(int i = 0; i < products.size(); i++){
                 	
-                //Equivalent to products[i] = orderItem[i].getProduct();
-                products.set(i, orderItem.get(i).getProduct());
+                    //Equivalent to products[i] = orderItem[i].getProduct();
+                    products.set(i, orderItem.get(i).getProduct());
                 }
                 break;
                 
             case 2:
                 if (orderLists.size() != 0) {
-                    staff.displayTransactionHistory(orderLists);
+                    employee.displayTransactionHistory(orderLists);
                 } else {
                     System.out.println("No Transaction History!\n");
                 }
                 break;
                 
             case 3:
-                Logout stLogout = new Logout();
+                Logout empLogout = new Logout();
                 count++;
                 for(int i = 0; i < count; i++) {
-                    System.out.println("\n" + userName[i] + " has logged out at " + stLogout.currentTime() + "\n");
+                    System.out.println("\n" + userName[i] + " has logged out at " + empLogout.currentTime() + "\n");
                 }
                 break;
             default:
@@ -260,12 +245,11 @@ public class Assignment{
         } while (menuOption != 3);
     }
 
-    private static void managerMenuOptions(ArrayList<Product> products, ArrayList<Staff> staff, ArrayList<OrderItem> orderItems,
+    private static void managerMenuOptions(ArrayList<Product> products, ArrayList<Employee> employees, ArrayList<OrderItem> orderItems,
             ArrayList<OrderList> orderLists) {
-        
-        Scanner scanner = new Scanner(System.in);
-        
+        Scanner scan = new Scanner(System.in);
         Manager manager = new Manager();
+
         int menuOption;
 
         do {
@@ -278,12 +262,11 @@ public class Assignment{
             System.out.print("> ");
 
             try {
-                menuOption = scanner.nextInt();
+                menuOption = scan.nextInt();
             } catch (Exception e) {
-                scanner.nextLine();
+                scan.nextLine();
                 menuOption = -1;
             }
-            
             switch (menuOption) {
             case 1:
                 manager.modifyProduct(products, orderItems);
@@ -292,7 +275,7 @@ public class Assignment{
                 }
                 break;
             case 2:
-                manager.modifyStaff(staff);
+                manager.modifyStaff(employees);
                 break;
             case 3:
                 manager.dailyReport(orderLists, products);

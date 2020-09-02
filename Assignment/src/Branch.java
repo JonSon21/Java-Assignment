@@ -5,7 +5,7 @@ import java.util.StringJoiner;
 class Branch implements Serializable {
 	
     //Variables
-    private static int nextBranchId = 1;
+    private static int nextBranchId = 1; // Counting the branch starting from 1
     private String branchId;
     private String branchName;
     private Manager manager;

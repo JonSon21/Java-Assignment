@@ -5,16 +5,14 @@ import java.util.ArrayList;
 
 class OrderList implements Serializable {
 
-	// Variables
     private String orderNo;
-    private static int nextOrderNo = 1; // Counting orders from 1 instead of 0
-    
+    private static int nextOrderNo = 1;
     private ArrayList<OrderItem> orderItem = new ArrayList<>();
     private double totalAmount = 0;
     
-    //itemCount represents the number of items in the order list
+    //itemCount represents number of item list in order list
     private int itemCount = 0;
-    private double amount; // Payment Amount
+    private double amount;
     
     //Initialize local date time object
     private String formattedDate;
@@ -27,26 +25,23 @@ class OrderList implements Serializable {
         
         //Changes the date time format to dd-MM-yyyy HH:mm:ss
         formattedDate = dateObj.format(formatObj);
-        
-        this.orderNo = String.format("I%06d", nextOrderNo++); // Setting the order number for order items
+        this.orderNo = String.format("I%06d", nextOrderNo++);
     }
 
-    // Adding an order item into the list
+    //
     public boolean addOrderItem(OrderItem item) {
     	
         for (int i = 0; i < itemCount; i++) {
-        	
-            //Compare product with the database (binary files)
+            //Compare product with the database
             if (orderItem.get(i).getProduct() == item.getProduct() && orderItem.get(i).stockOut(1)) {
-            	
                 //Adds amount of i element of orderItem to the totalAmount
                 totalAmount += orderItem.get(i).getAmount();
+
                 return true;
             }
         }
 
         try{
-        	
             //Adds element to the orderItem Array
             orderItem.add(item);
             orderItem.get(itemCount).stockOut(1);
@@ -54,10 +49,8 @@ class OrderList implements Serializable {
             totalAmount += orderItem.get(itemCount).getAmount();
 
             itemCount++;
-            
         }catch(Exception e){
-        	
-            System.out.format("Failed to add item #%s to order #%s.\n", itemCount + 1, orderNo);
+            System.out.format("Failed to add item #%s into the order #%s.\n", itemCount + 1, orderNo);
             return false;
         }
         return true;
@@ -65,19 +58,16 @@ class OrderList implements Serializable {
 
     public void editQuantity(int list, int quantity){
     	
-        list--; // To align the list number according to the right element
+        list--;
         if(quantity != 0) {
-        	
             if(orderItem.get(list).stockOut(quantity - orderItem.get(list).getQuantity())) {
                 orderItem.get(list).setQuantity(quantity);
                 totalAmount += orderItem.get(list).getAmount();
             }
         }else {
-        	
             if(orderItem.get(list).stockOut(quantity - orderItem.get(list).getQuantity())) {
                 orderItem.get(list).setQuantity(quantity);
                 totalAmount += orderItem.get(list).getAmount();
-                
                 //Remove the list element of the orderItem Array
                 orderItem.remove(list);
                 itemCount--;
@@ -93,7 +83,7 @@ class OrderList implements Serializable {
         }
         System.out.printf("%-4s%-30s%-9s%-7s%-8s\n\n","No.","Product Name","Quantity","Price","SubTotal");
         for(int i = 0; i < itemCount; i++) {
-            System.out.printf("%-4d%-30s%-9d%-7.2f%-8.2f\n", i+1, orderItem.get(i).getProduct().getProductName(), orderItem.get(i).getQuantity(), orderItem.get(i).getProduct().getPrice(),
+            System.out.printf("%-4d%-30s%-9d%-7.2f%-8.2f\n", i+1, orderItem.get(i).getProduct().getProdName(), orderItem.get(i).getQuantity(), orderItem.get(i).getProduct().getPrice(),
                                                                   orderItem.get(i).getProduct().getPrice() * orderItem.get(i).getQuantity());
         }
         System.out.printf("%-50s%-8.2f\n","Total", totalAmount);
