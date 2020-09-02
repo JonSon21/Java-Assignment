@@ -1,9 +1,8 @@
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 class Manager extends UserDetails implements Serializable {
-	
-	Scanner scan = new Scanner(System.in);
 	
 	// Variables
     private static int nextManagerID = 1;
@@ -16,13 +15,15 @@ class Manager extends UserDetails implements Serializable {
 
     public Manager(UserDetails userDetails, String password, String position) {
         super(userDetails);
-        this.managerID = String.format("M%04d", nextManagerID);
+        this.managerID = String.format("M%04d", nextManagerID++);
         this.password = password;
         this.position = position;
     }
 
     // Add or edit product...
     public boolean modifyProduct(ArrayList<Product> product, ArrayList<OrderItem> orderItems) {
+    	
+    	Scanner scan = new Scanner(System.in);
 
         boolean valid;
         String enteredProductId;
@@ -77,6 +78,8 @@ class Manager extends UserDetails implements Serializable {
 
     // Sub-method for modifyProduct method, return true if edited successfully
     private boolean editProduct(int i, ArrayList<Product> product) {
+    	
+    	Scanner scan = new Scanner(System.in);
 
         int choice = -1;
         String stringBuf;
@@ -182,6 +185,8 @@ class Manager extends UserDetails implements Serializable {
 
     // Sub-method for modifyProduct method, return true if added successfully
     private boolean addProduct(ArrayList<Product> product, ArrayList<OrderItem> orderItems) {
+    	
+    	Scanner scan = new Scanner(System.in);
 
         String prodName, prodType;
         int stockQuantity;
@@ -243,6 +248,9 @@ class Manager extends UserDetails implements Serializable {
 
     // Add or edit employees...
     public boolean modifyStaff(ArrayList<Staff> staff) {
+    	
+    	Scanner scan = new Scanner(System.in);
+    	
         boolean valid;
         String enteredStaffId;
 
@@ -295,6 +303,8 @@ class Manager extends UserDetails implements Serializable {
     }
 
     private boolean editStaff(int i, ArrayList<Staff> staff) {
+    	
+    	Scanner scan = new Scanner(System.in);
 
         int choice = -1;
         String stringBuf;
@@ -407,6 +417,8 @@ class Manager extends UserDetails implements Serializable {
     }
 
     private boolean addStaff(ArrayList<Staff> staff) {
+    	
+    	Scanner scan = new Scanner(System.in);
 
         String password, firstName, lastName, phoneNo, email, icNo, position;
         char gender;
@@ -469,6 +481,8 @@ class Manager extends UserDetails implements Serializable {
     }
 
     public void dailyReport(ArrayList<OrderList> orderList, ArrayList<Product> products) {
+    	
+    	Scanner scan = new Scanner(System.in);
         int soldQuantity[] = new int[products.size()];
 
         for (int i = 0; i < products.size(); i++) {
@@ -585,6 +599,8 @@ class Manager extends UserDetails implements Serializable {
     }
 
     private int promptChoice(int max){
+    	
+    	Scanner scan = new Scanner(System.in);
         int choice = -1;
         boolean valid = false;
        

@@ -1,6 +1,5 @@
-import java.text.*;
-import java.util.*;
-import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Logout {
     private String username;

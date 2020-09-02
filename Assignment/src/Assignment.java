@@ -1,10 +1,11 @@
-
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 public class Assignment{
-	
-	Scanner scanner = new Scanner(System.in);
 
     // Use Array to store username for logout
     private static String[] userName = new String[999];
@@ -33,7 +34,7 @@ public class Assignment{
         // Initialize all filepath
         String[] filepath = new String[7];
         filepath[0] = "../obj/person.bin";
-        filepath[1] = "../obj/managers.bin";
+        filepath[1] = "../obj/manager.bin";
         filepath[2] = "../obj/branch.bin";
         filepath[3] = "../obj/staff.bin";
         filepath[4] = "../obj/product.bin";
@@ -160,6 +161,8 @@ public class Assignment{
     }
 
     private static void WriteObjectToFile(Object serObj, String filepath) {
+    	
+    	Scanner scan = new Scanner(System.in);
 
         try {
 

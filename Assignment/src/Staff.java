@@ -1,12 +1,11 @@
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 class Staff extends UserDetails implements Serializable {
 	
-	Scanner scanner = new Scanner(System.in);
-	
     //Variables
-    private static int nextStaffID = 1;
+    private static int nextStaffID = 1; // Count staff id starting from 1;
     private String position;
     private String staffID;
     private String password;
@@ -25,6 +24,8 @@ class Staff extends UserDetails implements Serializable {
 
     public OrderList modifyOrderList(String productCode, ArrayList<OrderItem> orderItem, ArrayList<OrderList> orderLists, int listNo) {
 
+		Scanner scan = new Scanner(System.in);
+		
         for (int i = 0; i < orderItem.size(); i++) {
 
             //Compare product ID with the database
@@ -50,20 +51,21 @@ class Staff extends UserDetails implements Serializable {
             do {
                 System.out.print("Please enter the order list number > ");
                 try {
-                    editedList = scanner.nextInt();
+                    editedList = scan.nextInt();
+                    
                     //Validate error
                     if (editedList < 1 || editedList > orderLists.get(listNo).getItemCount()) {
                         System.out.println("Invalid order list number!\n");
                     }
                 }catch(Exception e){
                     System.out.println("Invalid order list number!\n");
-                    scanner.nextLine();
+                    scan.nextLine();
                 }
             } while (editedList < 1 || editedList > orderLists.get(listNo).getItemCount());
 
             do {
                 System.out.print("Please enter the quantity > ");
-                editedQuantity = scanner.nextInt();
+                editedQuantity = scan.nextInt();
                 if (editedQuantity < 0) {
                     System.out.println("Invalid quantity!\n");
                 }
@@ -84,18 +86,20 @@ class Staff extends UserDetails implements Serializable {
     }
 
     public void payment(OrderList orderList){
+    	
+    	Scanner scan = new Scanner(System.in);
 
         double amount = 0;
         do {
             System.out.print("Please enter the amount of RM you want to pay > ");
             try {
-                amount = scanner.nextDouble();
+                amount = scan.nextDouble();
                 if(amount < orderList.getTotalAmount()){
                     System.out.println("The amount of RM you want to pay cannot be lower than the total price.\n");
                 }
             }catch (Exception e){
                 System.out.println("Please enter an amount.\n");
-                scanner.nextLine();
+                scan.nextLine();
             }
         } while (amount < orderList.getTotalAmount());
         System.out.printf("RM%.2f entered.\n", amount);
@@ -103,6 +107,8 @@ class Staff extends UserDetails implements Serializable {
     }
 
     public int displayProduct(ArrayList<OrderItem> orderItem){
+    	
+    	Scanner scan = new Scanner(System.in);
 
         int selectedProduct = -1;
         boolean valid = true;
@@ -120,9 +126,9 @@ class Staff extends UserDetails implements Serializable {
         do {
             try {
                 System.out.print("Select a product: ");
-                selectedProduct = scanner.nextInt() - 1;
+                selectedProduct = scan.nextInt() - 1;
             }catch(Exception e){
-                scanner.nextLine();
+                scan.nextLine();
                 valid = false;
             }
             if(selectedProduct < 0 || selectedProduct >= orderItem.size()){
@@ -136,6 +142,8 @@ class Staff extends UserDetails implements Serializable {
     }
 
     public void displayTransactionHistory(ArrayList<OrderList> orderLists) {
+    	
+    	Scanner scan = new Scanner(System.in);
 
         int selection = -1;
         boolean valid = true;
@@ -150,7 +158,7 @@ class Staff extends UserDetails implements Serializable {
         do {
             System.out.print("Please select to display details: ");
             try{
-                selection = scanner.nextInt();
+                selection = scan.nextInt();
                 if(selection < 1 || selection > orderLists.size()){
                     System.out.println("Please enter a valid number\n");
                     valid = false;
@@ -159,7 +167,7 @@ class Staff extends UserDetails implements Serializable {
                 }
             }catch (Exception e){
                 System.out.println("Please enter a valid number");
-                scanner.nextLine();
+                scan.nextLine();
                 valid = false;
             }
         }while(!valid);
