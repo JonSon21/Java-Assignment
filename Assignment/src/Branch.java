@@ -1,23 +1,13 @@
-/**
- * @(#)Branch.java
- *
- *
- * @author 
- * @version 1.00 2020/9/1
- */
-
-
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.StringJoiner;
+import java.io.*;
+import java.util.*;
 
 class Branch implements Serializable {
 	
-    private static int nextBranchId = 1; // To count the amount of branches starting from 1
-    
+    //Variables
+    private static int nextBranchId = 1;
     private String branchId;
     private String branchName;
-    private Manager branchManager;
+    private Manager manager;
 
     //Constructor
     public Branch() {

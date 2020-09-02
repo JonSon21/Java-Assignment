@@ -1,32 +1,515 @@
-package user;
+import java.io.*;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
-class Manager extends UserDetails {
+class Manager extends UserDetails implements Serializable {
 	
+	Scanner scan = new Scanner(System.in);
+	
+	// Variables
+    private static int nextManagerID = 1;
     private String managerID;
     private String password;
-    private String jobTitle;
-    
-    //Constructor
+    private String position;
+
     public Manager() {
     }
-    
-    public Manager(String firstName, String lastName, char gender, String phoneNo, String email, String icNo,String jobTitle,String managerID ,String password){
-        super(firstName,lastName,gender,phoneNo,email,icNo);
-        this.jobTitle = jobTitle;
-        this.managerID = managerID;
-        this.password = password;                 
+
+    public Manager(UserDetails userDetails, String password, String position) {
+        super(userDetails);
+        this.managerID = String.format("M%04d", nextManagerID);
+        this.password = password;
+        this.position = position;
     }
-    
-    public Manager(String firstName, String lastName, char gender, String phoneNo, String email, String icNo,String jobTitle,String password){
-        super(firstName,lastName,gender,phoneNo,email,icNo);
-        this.jobTitle = jobTitle;
-        this.password = password;                
+
+    // Add or edit product...
+    public boolean modifyProduct(ArrayList<Product> product, ArrayList<OrderItem> orderItems) {
+
+        boolean valid;
+        String enteredProductId;
+
+        do {
+            // Prompt user to enter a product ID
+            System.out.print("Enter a product ID: ");
+            enteredProductId = scan.nextLine();
+
+            // Validate the entered product ID
+            if (enteredProductId.length() != 5) {
+                System.out.println("Not a valid product ID.\n");
+                valid = false;
+            } else if(enteredProductId.charAt(0) != 'P') {
+                System.out.println("Not a valid product ID.\n");
+                valid = false;
+            } else valid = true;
+        } while (!valid);
+
+        // Check if the product exists
+        boolean productExist = false;
+        int productIndex = -1;
+        for (int i = 0; i < product.size(); i++) {
+            if (enteredProductId.equalsIgnoreCase(product.get(i).getProductId())) {
+                productExist = true;
+                productIndex = i;
+            }
+        }
+
+        // If product exist then edit product
+        if (productExist) {
+            if (editProduct(productIndex, product)) {
+                System.out.println("Product edited successfully.\n");
+                return true;
+            } else {
+                System.out.println("Product not edited.\n");
+                return false;
+            }
+        }
+
+        // If product does not exist, add product using the given product ID
+        else {
+            if (addProduct(product, orderItems)) {
+                System.out.println("Product added successfully.\n");
+                return true;
+            } else {
+                System.out.println("Product not added.\n");
+                return false;
+            }
+        }
     }
-   
-    //Getter
+
+    // Sub-method for modifyProduct method, return true if edited successfully
+    private boolean editProduct(int i, ArrayList<Product> product) {
+
+        int choice = -1;
+        String stringBuf;
+
+        // Show all detail of the product
+        System.out.println();
+        System.out.format(
+                "Product ID: %s\nProduct Name: %s\nProduct Type: %s\nStock Quantity: %d\nPrice: RM %,.2fea\n\n",
+                product.get(i).getProductId(), product.get(i).getProductName(), product.get(i).getProductType(),
+                product.get(i).getItemQuantity(), product.get(i).getPrice());
+
+        do {
+            // Prompt user to select a part to edit
+            System.out.println("1. Product Name");
+            System.out.println("2. Product Type");
+            System.out.println("3. Stock Quantity");
+            System.out.println("4. Product Price");
+            choice = promptChoice(4);
+        } while (choice < 1 || choice > 4);
+
+        // Use a buffer to hold the new data
+        stringBuf = "";
+        double doubleBuf = 0;
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter the new product name: ");
+                stringBuf = scan.nextLine();
+                break;
+            case 2:
+                System.out.print("Enter the new product type: ");
+                stringBuf = scan.nextLine();
+                break;
+            case 3:
+                do {
+                    System.out.print("Enter the new stock quantity: ");
+                    try {
+                        doubleBuf = scan.nextDouble();
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("\nPlease enter a digit.");
+                        scan.nextLine();
+                    }
+                } while (true);
+                break;
+            case 4:
+                do {
+                    System.out.print("Enter the new product price: RM ");
+                    try {
+                        doubleBuf = scan.nextDouble();
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("\nPlease enter a digit.");
+                        scan.nextLine();
+                    }
+                } while (true);
+                break;
+            default:
+                break;
+        }
+
+        // Get confirmation from user then put the data into the database
+        char confirmation;
+        do {
+            System.out.print("Do you really want to edit the detail? (Y/N): ");
+            confirmation = scan.next().toUpperCase().charAt(0);
+            scan.nextLine();
+        } while (confirmation != 'Y' && confirmation != 'N');
+
+        if (stringBuf != "") {
+            stringBuf = Character.toUpperCase(stringBuf.charAt(0)) + stringBuf.substring(1);
+        }
+
+        if (confirmation == 'Y') {
+            switch (choice) {
+                case 1:
+                    System.out.println();
+                    product.get(i).setProductName(stringBuf);
+                    break;
+                case 2:
+                    System.out.println();
+                    product.get(i).setProductType(stringBuf);
+                    break;
+                case 3:
+                    System.out.println();
+                    product.get(i).setItemQuantity((int) doubleBuf);
+                    break;
+                case 4:
+                    System.out.println();
+                    product.get(i).setPrice((int) doubleBuf);
+                    break;
+                default:
+                    System.out.println("Something went wrong.");
+            }
+            return true;
+        }
+
+        // Return failed to edit item if user rejected the confirmation
+        else {
+            return false;
+        }
+    }
+
+    // Sub-method for modifyProduct method, return true if added successfully
+    private boolean addProduct(ArrayList<Product> product, ArrayList<OrderItem> orderItems) {
+
+        String prodName, prodType;
+        int stockQuantity;
+        double price;
+
+        // Prompt user to enter the detail of the new product
+        System.out.println("Product does not exist, adding new product.");
+        System.out.println("Product ID: " + String.format("P%04d",Product.getNextProductId()));
+
+        System.out.print("Product Name: ");
+        prodName = scan.nextLine();
+        prodName = Character.toUpperCase(prodName.charAt(0)) + prodName.substring(1);
+
+        System.out.print("Product Type: ");
+        prodType = scan.nextLine();
+        prodType = Character.toUpperCase(prodType.charAt(0)) + prodType.substring(1);
+
+        do {
+            System.out.print("Stock Quantity: ");
+            try {
+                stockQuantity = scan.nextInt();
+                break;
+            } catch (Exception e) {
+                System.out.println("\nPlease enter a digit.");
+                scan.nextLine();
+            }
+        } while (true);
+
+        do {
+            System.out.print("Single Price: ");
+            try {
+                price = scan.nextDouble();
+                break;
+            } catch (Exception e) {
+                System.out.println("\nPlease enter a digit.");
+                scan.nextLine();
+            }
+        } while (true);
+
+        // Get confirmation from user then put the data into the database
+        char confirmation;
+        do {
+            System.out.print("Do you really want to add the product? (Y/N): ");
+            confirmation = scan.next().toUpperCase().charAt(0);
+            scan.nextLine();
+        } while (confirmation != 'Y' && confirmation != 'N');
+
+        if (confirmation == 'Y') {
+            product.add(new Product(prodName, prodType, price, stockQuantity));
+            orderItems.add(new OrderItem(product.get(product.size() - 1)));
+            return true;
+        }
+
+        // Return failed to add item if user rejected the confirmation
+        else {
+            return false;
+        }
+    }
+
+    // Add or edit employees...
+    public boolean modifyStaff(ArrayList<Staff> staff) {
+        boolean valid;
+        String enteredStaffId;
+
+        do {
+            // Prompt user to enter a product ID
+            System.out.print("Enter a employees ID: ");
+            enteredStaffId = scan.nextLine();
+
+            // Validate the entered product ID
+            if (enteredStaffId.length() != 5) {
+                System.out.println("Not a valid employee ID.\n");
+                valid = false;
+            } else if (enteredStaffId.charAt(0) != 'S'){
+                System.out.println("Not a valid employee ID.\n");
+                valid = false;
+            }else valid = true;
+        } while (!valid);
+
+        // Check if the employees exists
+        boolean staffExist = false;
+        int staffIndex = -1;
+        for (int i = 0; i < staff.size(); i++) {
+            if (enteredStaffId.equalsIgnoreCase(staff.get(i).getStaffID())) {
+                staffExist = true;
+                staffIndex = i;
+            }
+        }
+
+        // If employees exist then edit employees
+        if (staffExist) {
+            if (editStaff(staffIndex, staff)) {
+                System.out.println("Staff edited successfully.\n");
+                return true;
+            } else {
+                System.out.println("Staff not edited.\n");
+                return false;
+            }
+        }
+
+        // If employees does not exist, add employees using the next employees ID
+        else {
+            if (addStaff(staff)) {
+                System.out.println("Staff added successfully.\n");
+                return true;
+            } else {
+                System.out.println("Staff not added.\n");
+                return false;
+            }
+        }
+    }
+
+    private boolean editStaff(int i, ArrayList<Staff> staff) {
+
+        int choice = -1;
+        String stringBuf;
+
+        // Show all detail of the product
+        System.out.println();
+        System.out.format(
+                "Staff ID: %s\nPassword: %s\nBranch: %s\nFirst Name: %s\nLast Name: %s\nGender: %s\nPhone No: %s\nEmail: %s\nIc No: %s\n",
+                staff.get(i).getStaffID(), staff.get(i).getPassword(), staff.get(i).getBranch().getBranchName(),
+                staff.get(i).getFirstName(), staff.get(i).getLastName(), staff.get(i).getGender(),
+                staff.get(i).getPhoneNo(), staff.get(i).getEmail(), staff.get(i).getIcNo());
+        System.out.println();
+
+        // Prompt user to select a part to edit
+        do {
+            System.out.println("1. Password");
+            System.out.println("2. First Name");
+            System.out.println("3. Last Name");
+            System.out.println("4. Gender");
+            System.out.println("5. Phone No.");
+            System.out.println("6. Email");
+            choice = promptChoice(6);
+        } while (choice < 1 || choice > 6);
+
+        // Use a buffer to hold the new data
+        stringBuf = "";
+        char charBuf = 'M';
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter the new Password: ");
+                stringBuf = scan.nextLine();
+                break;
+            case 2:
+                System.out.print("Enter the new First Name: ");
+                stringBuf = scan.nextLine();
+                stringBuf = Character.toUpperCase(stringBuf.charAt(0)) + stringBuf.substring(1);
+                break;
+            case 3:
+                System.out.print("Enter the new Last Name: ");
+                stringBuf = scan.nextLine();
+                stringBuf = Character.toUpperCase(stringBuf.charAt(0)) + stringBuf.substring(1);
+                break;
+            case 4:
+                do {
+                    System.out.print("Enter the new Gender (M/F) : ");
+                    charBuf = scan.next().charAt(0);
+                } while (!validGender(charBuf));
+                break;
+            case 5:
+                do {
+                    System.out.print("Enter the new Phone No. (0123456789): ");
+                    stringBuf = scan.nextLine();
+                } while (!validPhoneNo(stringBuf));
+                break;
+            case 6:
+                do {
+                    System.out.print("Enter the new Email: ");
+                    stringBuf = scan.nextLine();
+                } while (!validEmail(stringBuf));
+                break;
+            default:
+                break;
+        }
+
+        // Get confirmation from user then put the data into the database
+        char confirmation;
+        do {
+            System.out.print("Do you really want to edit the detail? (Y/N): ");
+            confirmation = scan.next().toUpperCase().charAt(0);
+            scan.nextLine();
+        } while (confirmation != 'Y' && confirmation != 'N');
+
+        if (confirmation == 'Y') {
+            switch (choice) {
+                case 1:
+                    System.out.println();
+                    staff.get(i).setPassword(stringBuf);
+                    break;
+                case 2:
+                    System.out.println();
+                    staff.get(i).setFirstName(stringBuf);
+                    break;
+                case 3:
+                    System.out.println();
+                    staff.get(i).setLastName(stringBuf);
+                    break;
+                case 4:
+                    System.out.println();
+                    staff.get(i).setGender(charBuf);
+                    break;
+                case 5:
+                    System.out.println();
+                    staff.get(i).setPhoneNo(stringBuf);
+                    break;
+                case 6:
+                    System.out.println();
+                    staff.get(i).setEmail(stringBuf);
+                    break;
+                default:
+                    System.out.println("Something went wrong.");
+            }
+            return true;
+        }
+
+        // Return failed to edit item if user rejected the confirmation
+        else {
+            return false;
+        }
+    }
+
+    private boolean addStaff(ArrayList<Staff> staff) {
+
+        String password, firstName, lastName, phoneNo, email, icNo, position;
+        char gender;
+
+        // Prompt user to enter the detail of the new staff
+        System.out.println("Staff does not exist, adding a new staff.");
+        System.out.println("Staff ID: " + String.format("S%04d", staff.size()+1));
+
+        System.out.print("First Name: ");
+        firstName = scan.nextLine();
+        firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
+
+        System.out.print("Last Name: ");
+        lastName = scan.nextLine();
+        lastName = Character.toUpperCase(lastName.charAt(0)) + lastName.substring(1);
+
+        do {
+            System.out.print("Phone No.: ");
+            phoneNo = scan.nextLine();
+        } while (!validPhoneNo(phoneNo));
+
+        do {
+            System.out.print("Email: ");
+            email = scan.nextLine();
+        } while (!validEmail(email));
+
+        System.out.print("IC No.: ");
+        icNo = scan.nextLine();
+
+        do {
+            System.out.print("Gender (M/F): ");
+            gender = scan.nextLine().charAt(0);
+        } while (!validGender(gender));
+
+        System.out.print("Password: ");
+        password = scan.nextLine();
+
+        System.out.print("Job Title: ");
+        position = scan.nextLine();
+        position = Character.toUpperCase(position.charAt(0)) + position.substring(1);
+
+        // Get confirmation from user then put the data into the database
+        char confirmation;
+        do {
+            System.out.print("Do you really want to add the staff? (Y/N): ");
+            confirmation = scan.next().toUpperCase().charAt(0);
+            scan.nextLine();
+        } while (confirmation != 'Y' && confirmation != 'N');
+
+        if (confirmation == 'Y') {
+            staff.add(new Staff(new UserDetails(firstName, lastName, gender, phoneNo, email, icNo), position,
+                    password, new Branch()));
+            return true;
+        }
+
+        // Return failed to add item if user rejected the confirmation
+        else {
+            return false;
+        }
+    }
+
+    public void dailyReport(ArrayList<OrderList> orderList, ArrayList<Product> products) {
+        int soldQuantity[] = new int[products.size()];
+
+        for (int i = 0; i < products.size(); i++) {
+            soldQuantity[i] = 0;
+        }
+
+        if (orderList.size() < 1 ){
+            System.out.println("No order is exist.\n");
+            return;
+        }
+
+        for (int i = 0; i < products.size(); i++) {
+            for (int j = 0; j < orderList.size(); j++) {
+                for (int k = 0; k < orderList.get(j).getOrderItem().size(); k++) {
+                    if (orderList.get(j).getOrderItem().get(k).getProduct().getProductId()
+                            .equals(products.get(i).getProductId())) {
+                        soldQuantity[i] += orderList.get(j).getOrderItem().get(k).getQuantity();
+                    }
+                }
+            }
+        }
+
+        double totalAmount = 0;
+
+        System.out.println("Daily Report");
+        System.out.println("Date: " + orderList.get(0).getFormattedDate());
+        System.out.println("----------------------------");
+        System.out.printf("%-4s%-20s%-30s%-20s%-20s%-10s%-11s\n", "No.", "Product ID", "Product Name", "Stock Quantity",
+                "Sold Out", "Unit Price", "Amount");
+        System.out.println(
+                "----------------------------------------------------------------------------------------------------------------");
+        for (int i = 0; i < products.size(); i++) {
+            System.out.format("%-4d%-20s%-30s%-20d%-20d%-10.2f%-11.2f\n", i + 1, products.get(i).getProductId(),
+                    products.get(i).getProductName(), products.get(i).getItemQuantity(), soldQuantity[i],
+                    products.get(i).getPrice(), products.get(i).getPrice()*soldQuantity[i]);
+            totalAmount += (products.get(i).getPrice()*soldQuantity[i]);
+        }
+        System.out.printf("Total: %-17s%-30s%-20s%-20s%-10s%-10.2f\n", "","","","","",totalAmount);
+    }
+
+    // Getter
     public String getManagerID() {
         return managerID;
     }
@@ -35,8 +518,12 @@ class Manager extends UserDetails {
         return password;
     }
 
-    public String getJobTitle() {
-        return jobTitle;
+    public String getPosition() {
+        return position;
+    }
+
+    public static int getNextManagerID() {
+        return nextManagerID;
     }
 
     // Setter
@@ -44,232 +531,27 @@ class Manager extends UserDetails {
         this.password = password;
     }
 
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
+    public void setPosition(String position) {
+        this.position = position;
     }
-    
+
+    @Override
     public String toString() {
-        return super.toString() + "Manager{" + "managerID='" + managerID + '\'' + ", password='" + password + '\'' + ", jobTitle='" + jobTitle + '}';
+        return "Manager{" + "managerID='" + managerID + '\'' + ", password='" + password + '\'' + ", position='"
+                + position + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", gender="
+                + gender + ", phoneNo='" + phoneNo + '\'' + ", email='" + email + '\'' + ", icNo='" + icNo + '\'' + '}';
     }
-    
-    //Add / Edit function
-    public boolean modifyStaff(ArrayList<Staff> staff){
-        boolean validation;
-        String checkStaffid;
-        
-        Scanner input = new Scanner(System.in);
-        
-        do{
-            System.out.print("Enter a staff ID :");
-            checkStaffid = input.nextLine();
-            
-            if(checkStaffid.length()!=7){
-               System.out.print("This is not a valid staff ID !\n");
-               validation= false;
-            }else if (checkStaffid.charAt(0)!='S'){
-               System.out.println("This is not a valid Staff ID !\n");
-               validation = false;
-            }else{
-                validation = true;
-            }
-        }while(!validation);
-        
-        boolean staffExist = false;
-        int staffIndex = -1;
-        
-        for(int i = 0 ; i < staff.size() ; i++){
-            if(checkStaffid.equalsIgnoreCase(staff.get(i).getStaffID())){
-                staffExist = true;
-                staffIndex = i;
-            }            
-        }
-        
-        if(staffExist){
-            if(editStaff(staffIndex, staff)){
-                System.out.print("Staff edited successfully !\n");
-                return true;
-            }else{
-                System.out.println("Edit failed !\n");
-                return false;
-            }
-        }else{
-            if(addStaff(staff)){
-                System.out.println("Staff added successfully !\n");
-                return true;
-            }else{
-                System.out.println("Staff adding failed !\n");
-                return false;
-            }
-        }      
-    }
-    
-    public boolean addStaff(ArrayList<Staff> staff){
-        Scanner input = new Scanner(System.in);
-        String password,firstName,lastName,phoneNo,email,icNo,jobTitle;
-        char gender;
-        char confirmation;
-        
-        System.out.println("Enter new staff details");
-        //Entering all the new details
-        
-        System.out.print("First Name: ");
-        firstName = input.nextLine();
-     
-        System.out.print("Last Name: ");
-        lastName = input.nextLine();
-      
-        do{
-            System.out.print("Enter phone number: ");
-            phoneNo = input.nextLine();
-        }while(!validPhoneNo(phoneNo));
-        
-        do{
-            System.out.print("Enter email: ");
-            email = input.nextLine();
-        }while(!validEmail(email));
-        
-        System.out.print("Enter IC number: ");
-        icNo = input.nextLine();
-        
-        do{
-            System.out.print("Gender (M/F): ");
-            gender = input.nextLine().charAt(0);
-        }while(!validGender(gender));
-        
-        System.out.print("Enter password: ");
-        password = input.nextLine();
-        
-        System.out.print("Job title: ");
-        jobTitle = input.nextLine();
-        
-        do{
-            System.out.print("Confirm to add staff ? (Y/N) :");
-            confirmation = input.next().toUpperCase().charAt(0);
-            input.nextLine();
-        }while(confirmation != 'Y' && confirmation !='N');
-     
-        if(confirmation == 'Y'){
-            staff.add(new Staff(firstName, lastName, gender, phoneNo,email ,icNo,jobTitle,password));
-            return true;
-        }else{
-            return false;        
-        }
-    }
-    
-    
-    
-    private boolean editStaff(int i,ArrayList<Staff> staff){
-        Scanner input = new Scanner(System.in);
-        int choice = -1;
-        String stringBuffer;
-        
-        System.out.println();
-        System.out.format(
-                "Staff ID: %s\nPassword: %s\nFirst Name: %s\nLast Name: %s\nGender: %s\nPhone No: %s\nEmail: %s\nIc No: %s\n",
-                staff.get(i).getStaffID(), staff.get(i).getPassword(),
-                staff.get(i).getFirstName(), staff.get(i).getLastName(), staff.get(i).getGender(),
-                staff.get(i).getPhoneNo(), staff.get(i).getEmail(), staff.get(i).getIcNo());
-        System.out.println();
-        
-        do{
-            System.out.println("1. Password");
-            System.out.println("2. First Name");
-            System.out.println("3. Last Name");
-            System.out.println("4. Gender");
-            System.out.println("5. Phone No.");
-            System.out.println("6. Email");
-            choice = promptChoice(6);
-        }while(choice < 1 || choice > 6);
-        
-        //buffer used to hold new data
-        stringBuffer="";
-        char charBuffer='M';
-        
-        switch (choice) {
-            case 1:
-                System.out.print("Enter the new Password: ");
-                stringBuffer = input.nextLine();
-                break;
-            case 2:
-                System.out.print("Enter the new First Name: ");
-                stringBuffer = input.nextLine();
-                stringBuffer = Character.toUpperCase(stringBuffer.charAt(0)) + stringBuffer.substring(1);
-                break;
-            case 3:
-                System.out.print("Enter the new Last Name: ");
-                stringBuffer = input.nextLine();
-                stringBuffer = Character.toUpperCase(stringBuffer.charAt(0)) + stringBuffer.substring(1);
-                break;
-            case 4:
-                do {
-                    System.out.print("Enter the new Gender (M/F) : ");
-                    charBuffer = input.next().charAt(0);
-                } while (!validGender(charBuffer));
-                break;
-            case 5:
-                do {
-                    System.out.print("Enter the new Phone No. (0123456789): ");
-                    stringBuffer = input.nextLine();
-                } while (!validPhoneNo(stringBuffer));
-                break;
-            case 6:
-                do {
-                    System.out.print("Enter the new Email: ");
-                    stringBuffer = input.nextLine();
-                } while (!validEmail(stringBuffer));
-                break;
-            default:
-                break;
-        }
-        //Verify confirmation
-        char confirm;
-        do {
-            System.out.print("Do you really want to edit the detail? (Y/N): ");
-            confirm = input.next().toUpperCase().charAt(0);
-            input.nextLine();
-        } while (confirm != 'Y' && confirm != 'N');
 
-        if (confirm == 'Y') {
-            switch (choice) {
-                case 1:
-                    System.out.println();
-                    staff.get(i).setPassword(stringBuffer);
-                    break;
-                case 2:
-                    System.out.println();
-                    staff.get(i).setFirstName(stringBuffer);
-                    break;
-                case 3:
-                    System.out.println();
-                    staff.get(i).setLastName(stringBuffer);
-                    break;
-                case 4:
-                    System.out.println();
-                    staff.get(i).setGender(charBuffer);
-                    break;
-                case 5:
-                    System.out.println();
-                    staff.get(i).setPhoneNo(stringBuffer);
-                    break;
-                case 6:
-                    System.out.println();
-                    staff.get(i).setEmail(stringBuffer);
-                    break;
-                default:
-                    System.out.println("Something is wrong");
-            }
+    // Validation
+    private boolean validGender(char input) {
+        if (input == 'M' || input == 'F') {
             return true;
-        }
-
-        // Return failed to edit staff if user entered n in veryfication
-        else {
-            System.out.print("Failed to edit staff's information !");
+        } else {
+            System.out.println("\nPlease enter \'M\' or \'F\'.");
             return false;
         }
     }
-    //Show all details of member
-    
-    //Validation methods
+
     private boolean validPhoneNo(String input) {
         for (int i = 0; i < input.length(); i++) {
             if (!Character.isDigit(input.charAt(0))) {
@@ -279,11 +561,11 @@ class Manager extends UserDetails {
                 return true;
             }
         }
-        System.out.println("Something went wrong!");
+        System.out.println("Something went wrong.");
         return false;
     }
-    
-   private boolean validEmail(String input) {
+
+    private boolean validEmail(String input) {
         int atCounter = 0;
         int dotCounter = 0;
         for (int i = 0; i < input.length(); i++) {
@@ -301,27 +583,17 @@ class Manager extends UserDetails {
             return true;
         }
     }
-    
-    private boolean validGender(char input){
-        if(input == 'M' || input == 'F'){
-            return true;
-        }else{
-            System.out.print("Please only enter M or F");
-            return false;
-        }
-        
-    }
-    
+
     private int promptChoice(int max){
         int choice = -1;
         boolean valid = false;
-        Scanner input = new Scanner(System.in);
+       
 
         do {
             System.out.print("Enter a number: ");
             try {
-                choice = input.nextInt();
-                input.nextLine();
+                choice = scan.nextInt();
+                scan.nextLine();
                 if(choice > max || choice < 1){
                     System.out.println("\nPlease enter a number between 1 and " + max + ".");
                     choice = -1;
@@ -329,12 +601,11 @@ class Manager extends UserDetails {
                 valid = true;
             } catch (Exception e) {
                 System.out.println("Please enter a valid number.\n");
-                input.nextLine();
+                scan.nextLine();
                 choice = -1;
             }
         } while(!valid);
 
         return choice;
     }
-    
 }

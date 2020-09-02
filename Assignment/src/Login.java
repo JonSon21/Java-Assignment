@@ -1,17 +1,10 @@
-/**
- * @(#)loginCheck.java
- *
- *
- * @author 
- * @version 1.00 2020/8/30
- */
-
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import java.util.*;
+import java.io.*;
+import java.text.*;
 
 class Login {
+	
+	// Variables
     private String username;
     private String password;
     private int i;
@@ -20,16 +13,18 @@ class Login {
         this.username = username;
         this.password = password;
     }
+    
     // Login function for staff
-    public boolean staffLogin(ArrayList<staff> staffArray) {
+    public boolean staffLogin(ArrayList<Staff> staffArray) {
 
         for (i = 0; i < staffArray.size(); i++) {
 
             // Compare username and password with the database
-            if (staffArray.get(i).getstaffID().equals(username)
+            if (staffArray.get(i).getStaffID().equals(username)
                     && staffArray.get(i).getPassword().equals(password)) {
                 return true;
-                // Only output wrong username or password until the end element of the array if
+                
+                // Only output wrong username or password if
                 // the username and password is not found in the database
             }
         }
@@ -46,14 +41,13 @@ class Login {
         }
     }
 
-    // Login time
+    // Login time (Get Current Time)
     public String currentTime() {
+    	
         Date now = new Date();
-
         SimpleDateFormat formatTime = new SimpleDateFormat("hh.mm aa");
 
         String loginTime = formatTime.format(now);
-
         return loginTime;
     }
 

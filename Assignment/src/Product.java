@@ -1,35 +1,34 @@
-import java.io.Serializable;
+import java.io.*;
+import java.util.*;
 
 class Product implements Serializable {
 	
-	private static int nextProductId = 1; // To count the amount of products starting from 1
-	
+	// Variables
     private String productId;
     private String productName;
     private String productType;
-    
-    private int roomQuantity;
+    private int itemQuantity;
     private double price;
+    private static int nextProductId = 1;
 
-    // Constructors (Must have prodName and price)
-
-    // Constructor without prodId
-    public Product(String productName, String productType, double price, int roomQuantity) {
-        this.productId = String.format("P%04d", nextProdId++);
+    // Constructor with all data available execept prodId (For new items)
+    public Product(String productName, String productType, double price, int itemQuantity) {
+        this.productId = String.format("P%04d", nextProductId++);
         this.productName = productName;
         this.productType = productType;
-        this.roomQuantity = roomQuantity;
+        this.itemQuantity = itemQuantity;
         this.price = price;
     }
 
-	// Constructor with prodId
-    public Product(String prodId, String prodName, String prodType, double price, int stockQuantity) {
+	// Constructor with all data available
+    public Product(String productId, String productName, String productType, double price, int itemQuantity) {
         this.productId = productId;
         this.productName = productName;
         this.productType = productType;
-        this.roomQuantity = roomQuantity;
+        this.itemQuantity = itemQuantity;
         this.price = price;
     }
+
 
     // Constructor without stockQuantity only
     public Product(String productName, String productType, double price) {
@@ -37,8 +36,8 @@ class Product implements Serializable {
     }
 
     // Constructor without prodType only
-    public Product(String productName, double price, int roomQuantity) {
-        this(productName, "n/a", price, roomQuantity);
+    public Product(String productName, double price, int itemQuantity) {
+        this(productName, "n/a", price, itemQuantity);
 
     }
 
@@ -62,8 +61,8 @@ class Product implements Serializable {
         this.productType = productType;
     }
 
-    public void setRoomQuantity(int stockQuantity) {
-        this.roomQuantity = roomQuantity;
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
     }
 
     public void setPrice(double price) {
@@ -83,8 +82,8 @@ class Product implements Serializable {
         return productType;
     }
 
-    public int getRoomQuantity() {
-        return roomQuantity;
+    public int getItemQuantity() {
+        return itemQuantity;
     }
 
     public double getPrice() {
@@ -99,7 +98,7 @@ class Product implements Serializable {
     @Override
     public String toString() {
         return String.format(
-                "Product: {Product ID: %s\nProduct Name: %s\nProduct Type: %s\nStock Quantity: %d\nPrice: RM %,.2fea\n}", productId,
-                productName, productType, roomQuantity, price);
+                "Product: {Product ID: %s\nProduct Name: %s\nProduct Type: %s\nItem Quantity: %d\nPrice: RM %,.2fea\n}", productId,
+                productName, productType, itemQuantity, price);
     }
 }

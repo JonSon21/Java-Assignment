@@ -1,6 +1,8 @@
-import java.io.Serializable;
+import java.io.*;
+import java.util.*;
 
 class OrderItem implements Serializable {
+	
     private Product product;
     private double amount;
     private int quantity = 0;
@@ -12,24 +14,8 @@ class OrderItem implements Serializable {
         this.product = product;
         amount = product.getPrice() * quantity;
     }
-    
-    public boolean roomCheck(int quantity){ //To check if there's enough rooms
-        
-        if(product.getRoomQuantity()> quantity){
-            //Deduct the product stock quantity
-            product.setRoomQuantity(product.getRoomQuantity()-quantity);
-            this.quantity++;
-            amount = product.getPrice()*quantity;
-            return true;
-        }
-        else {
-            System.out.println("No rooms available.");
-            return false;
-        }
-    }
 
     //Getter
-    
     public Product getProduct() {
         return product;
     }
@@ -43,7 +29,6 @@ class OrderItem implements Serializable {
     }
 
     //Setter
-    
     public void setProduct(Product product) {
         this.product = product;
     }
@@ -54,6 +39,23 @@ class OrderItem implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public boolean stockOut(int quantity){
+        //To check if the stock quantity is enough
+        if(product.getItemQuantity()> quantity){
+        	
+            //Deduct the product stock quantity
+            product.setItemQuantity(product.getItemQuantity()-quantity);
+            this.quantity++;
+            amount = quantity * product.getPrice();
+            
+            return true;
+        }
+        else {
+            System.out.println("No quantity left.");
+            return false;
+        }
     }
 
     @Override

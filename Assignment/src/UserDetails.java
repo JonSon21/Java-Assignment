@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.*;
 
 class UserDetails implements Serializable {
 	
@@ -10,8 +9,10 @@ class UserDetails implements Serializable {
     protected String email;
     protected String icNo;
 
+    public UserDetails(){
+    }
+
     public UserDetails(UserDetails userDetails) {
-    	
         firstName = userDetails.firstName;
         lastName = userDetails.lastName;
         gender = userDetails.gender;
@@ -20,7 +21,7 @@ class UserDetails implements Serializable {
         icNo = userDetails.icNo;
     }
 
-    public PersonDetails(String firstName, String lastName, char gender, String phoneNo, String email, String icNo) {
+    public UserDetails(String firstName, String lastName, char gender, String phoneNo, String email, String icNo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;

@@ -1,5 +1,6 @@
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.*;
+import java.util.*;
+import java.io.*;
 
 public class Logout {
     private String username;
@@ -8,14 +9,13 @@ public class Logout {
         this.username = "";
     }
 
-    // Logout time
+    // Logout time (Current Time)
     public String currentTime() {
+    	
         Date now = new Date();
-
         SimpleDateFormat formatTime = new SimpleDateFormat("hh.mm aa");
 
         String loginTime = formatTime.format(now);
-
         return loginTime;
     }
 
