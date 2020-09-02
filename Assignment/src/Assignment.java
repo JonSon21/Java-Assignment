@@ -307,12 +307,16 @@ public class Assignment{
     }
 
     private static void bootupScreen() {
-        System.out.println(" ____  _____ _____    ____  _____  ____  ____  _____   _ ");
-        System.out.println("/  __\\/  __//__ __\\  / ___\\/__ __\\/  _ \\/  __\\/  __/  / \\");
-        System.out.println("|  \\/||  \\    / \\    |    \\  / \\  | / \\||  \\/||  \\    | |");
-        System.out.println("|  __/|  /_   | |    \\___ |  | |  | \\_/||    /|  /_   | |");
-        System.out.println("\\_/   \\____\\  \\_/    \\____/  \\_/  \\____/\\_/\\_\\\\____\\  \\_/");
-        System.out.println("Welcome to Pet Store 1 !!!\n");
+                System.out.println(" _                   _____                 _             ");
+        System.out.println("| |                 /  __ \\               (_)            ");
+        System.out.println("| |    _   _ _ __   | /  \\/ ___  _ __ ___  _ _ __   __ _ ");
+        System.out.println("| |   | | | | '_ \\  | |    / _ \\| '_ ` _ \\| | '_ \\ / _` |");
+        System.out.println("| |___| |_| | | | | | \\__/\\ (_) | | | | | | | | | | (_| |");
+        System.out.println("\\_____/\\__,_|_| |_|  \\____/\\___/|_| |_| |_|_|_| |_|\\__, |");
+        System.out.println("                                                    __/ |");
+        System.out.println("                                                   |___/ ");
+        System.out.println("Welcome to Lun Coming Karaoke !!!\n");
+
 
     }
 }
