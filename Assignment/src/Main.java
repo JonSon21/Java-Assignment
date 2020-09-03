@@ -77,9 +77,9 @@ public class Main {
         bootupScreen();
 
         do {
-        	System.out.println("===================");
-            System.out.println("Employee or Manager");
-            System.out.println("===================");
+        	System.out.println("=====================");
+            System.out.println("|Employee or Manager|");
+            System.out.println("=====================");
             System.out.println("1. Employee");
             System.out.println("2. Manager");
             System.out.println("0. Exit and update files");
@@ -97,9 +97,9 @@ public class Main {
             if (employeeOrManager == 1 || employeeOrManager == 2) {
             	
            		
-         		System.out.println("==========");
-                System.out.println("Login Page");
-                System.out.println("==========");
+         		System.out.println("============");
+                System.out.println("|Login Page|");
+                System.out.println("============");
                 System.out.print("Username: ");
                 username = scan.nextLine();
 
@@ -184,9 +184,9 @@ public class Main {
         int option;
 
         do {
-        	System.out.println("============");
-            System.out.println("Menu Options");
-            System.out.println("============");
+        	System.out.println("==============");
+            System.out.println("|Menu Options|");
+            System.out.println("==============");
             System.out.println("1. Sales Order");
             System.out.println("2. Transaction History");
             System.out.println("3. Logout");
@@ -260,9 +260,9 @@ public class Main {
         int menuOption;
 
         do {
-        	System.out.println("============");
-            System.out.println("Menu Options");
-            System.out.println("============");
+        	System.out.println("==============");
+            System.out.println("|Menu Options|");
+            System.out.println("==============");
             System.out.println("1. Add or edit Product Detail");
             System.out.println("2. Add or edit Employee Detail");
             System.out.println("3. Daily Report");
@@ -309,9 +309,9 @@ public class Main {
         System.out.println("*| |___| |_| | | | | | \\__/\\ (_) | | | | | | | | | | (_| |*");
         System.out.println("*\\_____/\\__,_|_| |_|  \\____/\\___/|_| |_| |_|_|_| |_|\\__, |*");
         System.out.println("*                                                    __/ |*");
-        System.out.println("*                                                   |___/ *");
+        System.out.println("*         Welcome to Lun Coming Karaoke !!!         |___/ *");
         System.out.println("***********************************************************");
-        System.out.println("Welcome to Lun Coming Karaoke !!!\n");
+        System.out.println("\n");
 
     }
     

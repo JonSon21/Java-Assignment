@@ -115,9 +115,7 @@ class Employee extends PersonDetails implements Serializable {
         int selectProduct = -1;
         boolean valid = true;
 
-		System.out.println("===============================================================================");
-        System.out.printf("%-3s%-11s%-20s%-20s%15s%10s\n","No", "Room ID", "Room Name", "Room Type", "Room Quantity", "Price");
-        System.out.println("===============================================================================");
+        System.out.printf("%-3s%-11s%-20s%-20s%15s%10s\n%s\n","No", "Room ID", "Room Name", "Room Type", "Room Quantity", "Price","===============================================================================");
         for(int i = 0; i < oi.size(); i++){
             System.out.printf("%-3d%-11s%-20s%-20s%15d%10.2f\n", i + 1,
                     oi.get(i).getProduct().getProdId(),
@@ -126,11 +124,10 @@ class Employee extends PersonDetails implements Serializable {
                     oi.get(i).getProduct().getStockQuantity(),
                     oi.get(i).getProduct().getPrice());
         }
-        System.out.println("===============================================================================");
 
         do {
             try {
-                System.out.print("Select a product: ");
+                System.out.print("\nSelect a product: ");
                 selectProduct = scan.nextInt() - 1;
             }catch(Exception e){
                 scan.nextLine();
@@ -150,13 +147,13 @@ class Employee extends PersonDetails implements Serializable {
         int selection = -1;
         boolean valid = true;
 
-        System.out.println("===================");
-        System.out.println("Transaction History");
-        System.out.println("===================");
-        System.out.printf("%-4s%-10s%10s\n", "No.", "Order ID", "Total (RM)");
-        System.out.println("=======================");
+        System.out.println("============================");
+        System.out.println("|    Transaction History   |");
+        System.out.println("============================");
+        System.out.printf("   %-4s%-10s%10s\n", "No.", "Order ID", "Total (RM)");
+        System.out.println("   =======================\n");
         for (int i = 0; i < ols.size(); i++) {
-            System.out.printf("%-4d%-10s%10.2f\n", i + 1, ols.get(i).getOrderNo(), ols.get(i).getTotalAmount());
+            System.out.printf("   %-4d%-10s%10.2f\n", i + 1, ols.get(i).getOrderNo(), ols.get(i).getTotalAmount());
         }
         do {
             System.out.print("Please select to display details: ");
