@@ -1,6 +1,9 @@
 import java.io.Serializable;
 
 class PersonDetails implements Serializable {
+	
+	// Variables
+	// Protected so subclasses can access to these variables
     protected String firstName;
     protected String lastName;
     protected char gender;
@@ -79,6 +82,7 @@ class PersonDetails implements Serializable {
         this.icNo = icNo;
     }
 
+    // Override toString()
     @Override
     public String toString() {
         return "PersonDetails{" +

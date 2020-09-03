@@ -42,6 +42,7 @@ class Branch implements Serializable {
         this.manager = manager;
     }
 
+    // Override toString()
     @Override
     public String toString() {
         return "Branch{" +

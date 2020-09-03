@@ -6,6 +6,7 @@ public class Logout {
 	// Variables
     private String username;
 
+	// Reset the username
     public Logout() {
         this.username = "";
     }

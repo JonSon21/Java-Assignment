@@ -8,46 +8,47 @@ class Product implements Serializable {
     private String prodType;
     private int stockQuantity;
     private double price;
-    private static int nextProdId = 1;
+    
+    // Counting the product starting from 1
+    // This is also to automatically set the product ID
+    private static int nextProdId = 1; 
 
     // Constructors (Must have prodName and price)
 
-    // Constructor with all data available
-    public Product(String prodName, String prodType, double price, int stockQuantity) {
+    // Constructor with all data available without prodId
+    public Product(String productName, String productType, double price, int itemQuantity) {
         this.prodId = String.format("P%04d", nextProdId++);
-        this.prodName = prodName;
-        this.prodType = prodType;
-        this.stockQuantity = stockQuantity;
+        this.prodName = productName;
+        this.prodType = productType;
+        this.stockQuantity = itemQuantity;
         this.price = price;
     }
-
-    public Product(String prodId, String prodName, String prodType, double price, int stockQuantity) {
-        this.prodId = prodId;
-        this.prodName = prodName;
-        this.prodType = prodType;
-        this.stockQuantity = stockQuantity;
+	
+	// Constructor with all data available
+    public Product(String productId, String productName, String productType, double price, int itemQuantity) {
+        this.prodId = productId;
+        this.prodName = productName;
+        this.prodType = productType;
+        this.stockQuantity = itemQuantity;
         this.price = price;
     }
-
 
     // Constructor without stockQuantity only
-    public Product(String prodName, String prodType, double price) {
-        this(prodName, prodType, price, 0);
+    public Product(String productName, String productType, double price) {
+        this(productName, productType, price, 0);
     }
 
     // Constructor without prodType only
-    public Product(String prodName, double price, int stockQuantity) {
-        this(prodName, "n/a", price, stockQuantity);
-
+    public Product(String productName, double price, int itemQuantity) {
+        this(productName, "tba", price, itemQuantity);
     }
 
     // Constructor without prodType and stockQuantity
-    public Product(String prodName, double price) {
-        this(prodName, "n/a", price, 0);
+    public Product(String productName, double price) {
+        this(productName, "tba", price, 0);
     }
 
     // Setter
-
     // Note: Necessary when the database already have some product.
     public static void setNextProdId(int nextProdId) {
         Product.nextProdId = nextProdId;
@@ -94,7 +95,7 @@ class Product implements Serializable {
         return nextProdId;
     }
 
-    // Methods
+    // Override toString()
     @Override
     public String toString() {
         return String.format(
