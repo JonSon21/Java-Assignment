@@ -329,16 +329,24 @@ public class Main {
     	switch (type){
     		case 1:
     			System.out.println("No such option, please enter again!\n");
+    			break;
     		case 2:
     			System.out.println("Invalid order list number!\n");
+    			break;
     		case 3:
     			System.out.println("Invalid quantity!\n");
+    			break;
     		case 4:
     			System.out.println("Please enter a valid number\n");
+    		    break;
     		case 5:
     			System.out.println("Invalid product ID.\n");
+    			break;
+    			
     		case 6:
     			System.out.println("Not a valid employee ID.\n");
+    			break;
+    			
     	}	 
     }
 }
