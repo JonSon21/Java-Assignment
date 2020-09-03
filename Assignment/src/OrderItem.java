@@ -8,9 +8,9 @@ class OrderItem implements Serializable {
     public OrderItem() {
     }
 
-    public OrderItem(Product product) {
-        this.product = product;
-        amount = product.getPrice() * quantity;
+    public OrderItem(Product p) {
+        this.product = p;
+        amount = p.getPrice() * quantity;
     }
 
     //Getter

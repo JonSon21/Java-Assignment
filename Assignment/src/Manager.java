@@ -506,20 +506,22 @@ class Manager extends PersonDetails implements Serializable {
 
         double totalAmount = 0;
 
+		System.out.println("============");
         System.out.println("Daily Report");
         System.out.println("Date: " + ol.get(0).getFormattedDate());
-        System.out.println("============================");
-        System.out.printf("%-4s%-20s%-30s%-20s%-20s%-10s%-11s\n", "No.", "Product ID", "Product Name", "Stock Quantity",
+        System.out.println("============");
+        System.out.printf("%-4s%-20s%-30s%-20s%-20s%-12s%11s\n", "No.", "Product ID", "Product Name", "Stock Quantity",
                 "Sold Out", "Unit Price", "Amount");
-        System.out.println(
-                "================================================================================================================");
+        System.out.println("=====================================================================================================================");
         for (int i = 0; i < p.size(); i++) {
-            System.out.format("%-4d%-20s%-30s%-20d%-20d%-10.2f%-11.2f\n", i + 1, p.get(i).getProdId(),
+            System.out.format("%-4d%-20s%-30s%-20d%-20d%-12.2f%11.2f\n", i + 1, p.get(i).getProdId(),
                     p.get(i).getProdName(), p.get(i).getStockQuantity(), soldQuantity[i],
                     p.get(i).getPrice(), p.get(i).getPrice()*soldQuantity[i]);
             totalAmount += (p.get(i).getPrice()*soldQuantity[i]);
         }
-        System.out.printf("Total: %-17s%-30s%-20s%-20s%-10s%-10.2f\n", "","","","","",totalAmount);
+        System.out.println("=====================================================================================================================");
+        System.out.printf("Total: %110.2f\n",totalAmount);
+        System.out.println("=====================================================================================================================");
     }
 
     // Getter

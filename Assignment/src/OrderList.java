@@ -82,15 +82,19 @@ class OrderList implements Serializable {
             System.out.println("Receipt");
             System.out.println("=======");
         }
-        System.out.printf("%-4s%-30s%-9s%-7s%-8s\n\n","No.","Product Name","Quantity","Price","SubTotal");
+        System.out.printf("%-4s%-30s%-9s%-7s%8s\n\n","No.","Product Name","Quantity","Price","SubTotal");
+        System.out.println("===========================================================");
         for(int i = 0; i < itemCount; i++) {
             System.out.printf("%-4d%-30s%-9d%-7.2f%-8.2f\n", i+1, orderItem.get(i).getProduct().getProdName(), orderItem.get(i).getQuantity(), orderItem.get(i).getProduct().getPrice(),
                                                                   orderItem.get(i).getProduct().getPrice() * orderItem.get(i).getQuantity());
         }
-        System.out.printf("%-50s%-8.2f\n","Total", totalAmount);
+        System.out.println("===========================================================");
+        System.out.printf("%-50s%8.2f\n","Total", totalAmount);
+        System.out.println("===========================================================");
         if(paid){
-            System.out.printf("%-50s%-8.2f\n","Ringgit Malaysia", this.amount);
-            System.out.printf("%-50s%-8.2f\n\n","Change", this.amount - totalAmount);
+            System.out.printf("%-50s%8.2f\n","Total Paid", this.amount);
+            System.out.printf("%-50s%8.2f\n","Change", this.amount - totalAmount);
+            System.out.printf("===========================================================\n\n");
             System.out.println("Paid: " + formattedDate + "\n");
         }
     }

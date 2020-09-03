@@ -115,7 +115,9 @@ class Employee extends PersonDetails implements Serializable {
         int selectProduct = -1;
         boolean valid = true;
 
+		System.out.println("===============================================================================");
         System.out.printf("%-3s%-11s%-20s%-20s%15s%10s\n","No", "Room ID", "Room Name", "Room Type", "Room Quantity", "Price");
+        System.out.println("===============================================================================");
         for(int i = 0; i < oi.size(); i++){
             System.out.printf("%-3d%-11s%-20s%-20s%15d%10.2f\n", i + 1,
                     oi.get(i).getProduct().getProdId(),
@@ -124,6 +126,7 @@ class Employee extends PersonDetails implements Serializable {
                     oi.get(i).getProduct().getStockQuantity(),
                     oi.get(i).getProduct().getPrice());
         }
+        System.out.println("===============================================================================");
 
         do {
             try {
@@ -147,9 +150,9 @@ class Employee extends PersonDetails implements Serializable {
         int selection = -1;
         boolean valid = true;
 
-        System.out.println("============================");
+        System.out.println("===================");
         System.out.println("Transaction History");
-        System.out.println("============================");
+        System.out.println("===================");
         System.out.printf("%-4s%-10s%10s\n", "No.", "Order ID", "Total (RM)");
         System.out.println("=======================");
         for (int i = 0; i < ols.size(); i++) {

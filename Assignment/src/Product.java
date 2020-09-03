@@ -13,37 +13,37 @@ class Product implements Serializable {
     // Constructors (Must have prodName and price)
 
     // Constructor with all data available
-    public Product(String prodName, String prodType, double price, int stockQuantity) {
+    public Product(String productName, String productType, double price, int itemQuantity) {
         this.prodId = String.format("P%04d", nextProdId++);
-        this.prodName = prodName;
-        this.prodType = prodType;
-        this.stockQuantity = stockQuantity;
+        this.prodName = productName;
+        this.prodType = productType;
+        this.stockQuantity = itemQuantity;
         this.price = price;
     }
 
-    public Product(String prodId, String prodName, String prodType, double price, int stockQuantity) {
-        this.prodId = prodId;
-        this.prodName = prodName;
-        this.prodType = prodType;
-        this.stockQuantity = stockQuantity;
+    public Product(String productId, String productName, String productType, double price, int itemQuantity) {
+        this.prodId = productId;
+        this.prodName = productName;
+        this.prodType = productType;
+        this.stockQuantity = itemQuantity;
         this.price = price;
     }
 
 
     // Constructor without stockQuantity only
-    public Product(String prodName, String prodType, double price) {
-        this(prodName, prodType, price, 0);
+    public Product(String productName, String productType, double price) {
+        this(productName, productType, price, 0);
     }
 
     // Constructor without prodType only
-    public Product(String prodName, double price, int stockQuantity) {
-        this(prodName, "tba", price, stockQuantity);
+    public Product(String productName, double price, int itemQuantity) {
+        this(productName, "tba", price, itemQuantity);
 
     }
 
     // Constructor without prodType and stockQuantity
-    public Product(String prodName, double price) {
-        this(prodName, "tba", price, 0);
+    public Product(String productName, double price) {
+        this(productName, "tba", price, 0);
     }
 
     // Setter
