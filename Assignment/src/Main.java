@@ -98,7 +98,7 @@ public class Main {
             }
 			
             if (employeeOrManager == 1 || employeeOrManager == 2) {
-<<<<<<< HEAD
+
             	 
            		System.out.println("==========");
                 System.out.println("|Login Page|");
