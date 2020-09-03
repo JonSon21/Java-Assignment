@@ -13,9 +13,10 @@ class Manager extends PersonDetails implements Serializable {
     public Manager() {
     }
 
+	// Constructor
     public Manager(PersonDetails personDetails, String password, String jobTitle) {
         super(personDetails);
-        this.managerID = String.format("M%04d", nextManagerID);
+        this.managerID = String.format("M%04d", nextManagerID++);
         this.password = password;
         this.jobTitle = jobTitle;
     }
@@ -25,7 +26,7 @@ class Manager extends PersonDetails implements Serializable {
     	
         Scanner input = new Scanner(System.in);
         
-        boolean valid;
+        boolean validProductId;
         String inputProductId;
 
         do {
@@ -35,19 +36,15 @@ class Manager extends PersonDetails implements Serializable {
             inputProductId = input.nextLine();
 
             // Validate the entered product ID
-            if (inputProductId.length() != 5) {
-                System.out.println("Not a valid product ID.\n");
-                valid = false;
+            if (inputProductId.length() != 5 || inputProductId.charAt(0) != 'P') {
+                System.out.println("Invalid product ID.\n");
+                validProductId = false;
                 
-            } else if(inputProductId.charAt(0) != 'P') {
-                System.out.println("Not a valid product ID.\n");
-                valid = false;
-                
-            } else valid = true;
+            } else validProductId = true;
             
-        } while (!valid);
+        } while (!validProductId);
 
-        // Check if the product exists
+        // Check if the product exists within the files
         boolean productExist = false;
         int productIndex = -1;
         

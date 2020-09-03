@@ -37,13 +37,13 @@ class Product implements Serializable {
 
     // Constructor without prodType only
     public Product(String prodName, double price, int stockQuantity) {
-        this(prodName, "n/a", price, stockQuantity);
+        this(prodName, "tba", price, stockQuantity);
 
     }
 
     // Constructor without prodType and stockQuantity
     public Product(String prodName, double price) {
-        this(prodName, "n/a", price, 0);
+        this(prodName, "tba", price, 0);
     }
 
     // Setter

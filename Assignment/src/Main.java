@@ -1,20 +1,17 @@
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.*;
 import java.io.IOException;
 
 public class Main {
+	
     // Use Array to store username for logout
-    private static String[] userName = new String[999];
+    private static String userName = new String();
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        // Initialize variables and objects
-        int employeeOrManager;
+        // Variables
+        int employeeOrManager; // For login
         int count = 0;
         
         boolean loginSuccess;
@@ -25,10 +22,11 @@ public class Main {
         String username = null;
         String password = null;
         
+        // Class Declaration
         Manager manager = new Manager();
         Branch branch = new Branch();
         
-   		// Use ArrayList because it is mutable
+   		// ArrayLists
         ArrayList<PersonDetails> person = new ArrayList<>();
         ArrayList<Employee> employees = new ArrayList<>();
         ArrayList<Product> product = new ArrayList<>();
@@ -54,6 +52,7 @@ public class Main {
                 ois[i] = new ObjectInputStream(fis[i]);
             }
             
+            // File reading
             person = (ArrayList<PersonDetails>) ois[0].readObject();
             manager = (Manager) ois[1].readObject();
             branch = (Branch) ois[2].readObject();
@@ -62,18 +61,24 @@ public class Main {
             orderItem = (ArrayList<OrderItem>) ois[5].readObject();
             orderLists = (ArrayList<OrderList>) ois[6].readObject();
             
+            //Object Input Stream Close
             for (int i = 0; i < filepath.length; i++) {
                 ois[i].close();
             }
+            
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
 
-        //Reassign static value
+        // Reassign static value
+        // This is to set the counters (starting from 1) in the respective classes
+        // So the Product ID, OrderNo, Employee ID will be +1 compared to the files
+        
         OrderList.setNextOrderNo(orderLists.size() + 1);
         Employee.setNextEmployeeID(employees.size() + 1);
         Product.setNextProdId(product.size() + 1);
 
+		// Starting Point
         bootupScreen();
 
         do {
@@ -107,10 +112,7 @@ public class Main {
                 System.out.print("Password: ");
                 password = scan.nextLine();
             }
-
-            for (int i = 0; i < count; i++) {
-                userName[i] = username;
-            }
+				userName = username;
 
             switch (employeeOrManager) {
             case 1:
@@ -124,23 +126,24 @@ public class Main {
                     System.out.println(eLogin.getUsername() + " has login at " + eLogin.currentTime() + "\n");
                     employeeMenuOptions(orderItem, orderLists, product);
                 } else {
-                    System.out.println("Login failed.\n");
+                    System.out.println("Wrong username or password, please login again.\n");
                 }
                 break;
             case 2:
-                Login mngrLogin = new Login(username, password);
-                loginSuccess = mngrLogin.managerLogin(manager);
+                Login mLogin = new Login(username, password);
+                loginSuccess = mLogin.managerLogin(manager);
                 if (loginSuccess) {
                     System.out.println("Log in successful.\n");
-                    System.out.println("Username: " + mngrLogin.getUsername() + "\nManager Name: "
-                            + employees.get(mngrLogin.getIndex()).getFirstName() + " "
-                            + employees.get(mngrLogin.getIndex()).getLastName());
+                    System.out.println("Username: " + mLogin.getUsername() + "\nManager Name: "
+                            + employees.get(mLogin.getIndex()).getFirstName() + " "
+                            + employees.get(mLogin.getIndex()).getLastName());
                     managerMenuOptions(product, employees, orderItem, orderLists);
                 } else {
-                    System.out.println("Login failed.\n");
+                    System.out.println("Wrong username or password, please login again.\n");
                 }
                 break;
             case 0:
+            	
                 // Update all data into files
                 WriteObjectToFile(person, filepath[0]);
                 WriteObjectToFile(manager, filepath[1]);
@@ -149,23 +152,25 @@ public class Main {
                 WriteObjectToFile(product, filepath[4]);
                 WriteObjectToFile(orderItem, filepath[5]);
                 WriteObjectToFile(orderLists, filepath[6]);
+                
                 // Terminates the program
                 System.exit(0);
                 break;
             default:
-                System.out.println("No such option!\n");
+                System.out.println("No such option, please enter again!\n");
                 break;
             }
         } while (true);
     }
 
-    private static void WriteObjectToFile(Object serObj, String filepath) {
+    private static void WriteObjectToFile(Object obj, String filepath) {
 
         try {
 
             FileOutputStream fileOut = new FileOutputStream(filepath);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject(serObj);
+            
+            objectOut.writeObject(obj);
             objectOut.close();
 
         } catch (Exception ex) {
@@ -175,12 +180,13 @@ public class Main {
 
     // Menu Options for employees
     private static void employeeMenuOptions(ArrayList<OrderItem> orderItem, ArrayList<OrderList> orderLists, ArrayList<Product> products) {
+    	
         Scanner scan = new Scanner(System.in);
+        
         String productCode;
         Employee employee = new Employee();
 
-        int menuOption;
-        int count = 0;
+        int option;
 
         do {
         	System.out.println("============");
@@ -192,13 +198,13 @@ public class Main {
             System.out.print("> ");
 
             try {
-                menuOption = scan.nextInt();
+                option = scan.nextInt();
                 scan.nextLine();
             } catch (Exception e) {
                 scan.nextLine();
-                menuOption = -1;
+                option = -1;
             }
-            switch (menuOption) {
+            switch (option) {
             case 1:
                 // Adds elements of multipleOrderLists array
                 orderLists.add(new OrderList());
@@ -242,21 +248,17 @@ public class Main {
                 break;
                 
             case 3:
-                Logout empLogout = new Logout();
-                count++;
-                for(int i = 0; i < count; i++) {
-                    System.out.println("\n" + userName[i] + " has logged out at " + empLogout.currentTime() + "\n");
-                }
+                Logout eLogout = new Logout(); 
+   				System.out.println("\n" + userName + " has logged out at " + eLogout.currentTime() + "\n");
                 break;
             default:
-                System.out.println("No such option!\n");
+                System.out.println("No such option, please enter again!\n");
                 break;
             }
-        } while (menuOption != 3);
+        } while (option != 3);
     }
 
-    private static void managerMenuOptions(ArrayList<Product> products, ArrayList<Employee> employees, ArrayList<OrderItem> orderItems,
-            ArrayList<OrderList> orderLists) {
+    private static void managerMenuOptions(ArrayList<Product> products, ArrayList<Employee> employees, ArrayList<OrderItem> orderItems, ArrayList<OrderList> orderLists) {
         Scanner scan = new Scanner(System.in);
         Manager manager = new Manager();
 
@@ -292,9 +294,11 @@ public class Main {
                 manager.dailyReport(orderLists, products);
                 break;
             case 4:
+            	Logout mLogout = new Logout(); 
+            	System.out.println("\n" + userName + " has logged out at " + mLogout.currentTime() + "\n");
                 break;
             default:
-                System.out.println("No such option!\n");
+                System.out.println("No such option, please enter again!\n");
                 break;
             }
         } while (menuOption != 4);
