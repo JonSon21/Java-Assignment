@@ -95,9 +95,8 @@ public class Main {
 
 
             if (employeeOrManager == 1 || employeeOrManager == 2) {
-            	
-           		
-         		System.out.println("==========");
+            	 
+           		System.out.println("==========");
                 System.out.println("Login Page");
                 System.out.println("==========");
                 System.out.print("Username: ");
