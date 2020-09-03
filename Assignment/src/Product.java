@@ -15,7 +15,7 @@ class Product implements Serializable {
 
     // Constructors (Must have prodName and price)
 
-    // Constructor with all data available
+    // Constructor with all data available without prodId
     public Product(String productName, String productType, double price, int itemQuantity) {
         this.prodId = String.format("P%04d", nextProdId++);
         this.prodName = productName;
@@ -23,7 +23,8 @@ class Product implements Serializable {
         this.stockQuantity = itemQuantity;
         this.price = price;
     }
-
+	
+	// Constructor with all data available
     public Product(String productId, String productName, String productType, double price, int itemQuantity) {
         this.prodId = productId;
         this.prodName = productName;
@@ -31,7 +32,6 @@ class Product implements Serializable {
         this.stockQuantity = itemQuantity;
         this.price = price;
     }
-
 
     // Constructor without stockQuantity only
     public Product(String productName, String productType, double price) {
@@ -41,7 +41,6 @@ class Product implements Serializable {
     // Constructor without prodType only
     public Product(String productName, double price, int itemQuantity) {
         this(productName, "tba", price, itemQuantity);
-
     }
 
     // Constructor without prodType and stockQuantity
@@ -50,7 +49,6 @@ class Product implements Serializable {
     }
 
     // Setter
-
     // Note: Necessary when the database already have some product.
     public static void setNextProdId(int nextProdId) {
         Product.nextProdId = nextProdId;
@@ -97,7 +95,7 @@ class Product implements Serializable {
         return nextProdId;
     }
 
-    // Methods
+    // Override toString()
     @Override
     public String toString() {
         return String.format(

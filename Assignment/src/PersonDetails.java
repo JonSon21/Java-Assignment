@@ -82,6 +82,7 @@ class PersonDetails implements Serializable {
         this.icNo = icNo;
     }
 
+    // Override toString()
     @Override
     public String toString() {
         return "PersonDetails{" +

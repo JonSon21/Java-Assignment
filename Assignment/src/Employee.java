@@ -216,6 +216,7 @@ class Employee extends PersonDetails implements Serializable {
         Employee.nextEmployeeID = nextEmployeeID;
     }
 
+    // Override toString()
     @Override
     public String toString() {
         return "Employee{" +

@@ -96,7 +96,7 @@ public class Main {
                 scan.nextLine();
                 employeeOrManager = -1;
             }
-
+			
             if (employeeOrManager == 1 || employeeOrManager == 2) {
             		
          		System.out.println("============");
@@ -335,12 +335,6 @@ public class Main {
     			System.out.println("Invalid product ID.\n");
     		case 6:
     			System.out.println("Not a valid employee ID.\n");
-    	}
-    	 
+    	}	 
     }
-      
-    
-   
-
-
 }
