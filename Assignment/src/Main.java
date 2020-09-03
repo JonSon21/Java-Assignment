@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.io.IOException;
 
 public class Main {
 	
@@ -12,13 +11,9 @@ public class Main {
 
         // Variables
         int employeeOrManager; // For login
-        int count = 0;
         
         boolean loginSuccess;
-        
-        
-
-        
+           
         String username = null;
         String password = null;
         
@@ -107,7 +102,6 @@ public class Main {
                 System.out.println("==========");
                 System.out.print("Username: ");
                 username = scan.nextLine();
-                count++;
 
                 System.out.print("Password: ");
                 password = scan.nextLine();
@@ -304,6 +298,7 @@ public class Main {
         } while (menuOption != 4);
     }
 
+	// Bootup Screen
     private static void bootupScreen() {
     	System.out.println("***********************************************************");
         System.out.println("* _                   _____                 _             *");
