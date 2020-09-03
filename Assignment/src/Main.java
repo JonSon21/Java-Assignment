@@ -100,9 +100,9 @@ public class Main {
             if (employeeOrManager == 1 || employeeOrManager == 2) {
 
             	 
-           		System.out.println("==========");
+           		System.out.println("============");
                 System.out.println("|Login Page|");
-                System.out.println("==========");
+                System.out.println("============");
 
             		
          		
@@ -194,9 +194,9 @@ public class Main {
         int option;
 
         do {
-        	System.out.println("==============");
+        	System.out.println("===============");
             System.out.println("|Menu Options|");
-            System.out.println("==============");
+            System.out.println("===============");
             System.out.println("1. Sales Order");
             System.out.println("2. Transaction History");
             System.out.println("3. Logout");
@@ -270,9 +270,9 @@ public class Main {
         int menuOption;
 
         do {
-        	System.out.println("==============");
+        	System.out.println("===============");
             System.out.println("|Menu Options|");
-            System.out.println("==============");
+            System.out.println("===============");
             System.out.println("1. Add or edit Product Detail");
             System.out.println("2. Add or edit Employee Detail");
             System.out.println("3. Daily Report");
