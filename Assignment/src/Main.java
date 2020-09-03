@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Main {
 	
-    // Use Array to store username for logout
+    // Used to store username for logout message
     private static String userName = new String();
 
     public static void main(String[] args) {
@@ -61,13 +61,16 @@ public class Main {
                 ois[i].close();
             }
             
+        // To trace error within the files / code
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
 
         // Reassign static value
         // This is to set the counters (starting from 1) in the respective classes
-        // So the Product ID, OrderNo, Employee ID will be +1 compared to the files
+        
+        // So the Product ID, OrderNo, Employee ID will be +1 compared to 
+        // the existing items within the files
         
         OrderList.setNextOrderNo(orderLists.size() + 1);
         Employee.setNextEmployeeID(employees.size() + 1);
@@ -76,6 +79,7 @@ public class Main {
 		// Starting Point
         bootupScreen();
 
+		// Employee or Manager
         do {
         	System.out.println("=====================");
             System.out.println("|Employee or Manager|");
@@ -93,10 +97,8 @@ public class Main {
                 employeeOrManager = -1;
             }
 
-
             if (employeeOrManager == 1 || employeeOrManager == 2) {
-            	
-           		
+            		
          		System.out.println("============");
                 System.out.println("|Login Page|");
                 System.out.println("============");
@@ -110,6 +112,8 @@ public class Main {
 
             switch (employeeOrManager) {
             case 1:
+            	
+            	// Employee Login
                 Login eLogin = new Login(username, password);
                 loginSuccess = eLogin.employeeLogin(employees);
                 if (loginSuccess) {
@@ -124,6 +128,8 @@ public class Main {
                 }
                 break;
             case 2:
+            	
+            	// Manager Login
                 Login mLogin = new Login(username, password);
                 loginSuccess = mLogin.managerLogin(manager);
                 if (loginSuccess) {
@@ -152,7 +158,7 @@ public class Main {
                 System.exit(0);
                 break;
             default:
-                System.out.println("No such option, please enter again!\n");
+                errorMessage(1);
                 break;
             }
         } while (true);
@@ -247,7 +253,7 @@ public class Main {
    				System.out.println("\n" + userName + " has logged out at " + eLogout.currentTime() + "\n");
                 break;
             default:
-                System.out.println("No such option, please enter again!\n");
+                errorMessage(1);
                 break;
             }
         } while (option != 3);
@@ -293,7 +299,7 @@ public class Main {
             	System.out.println("\n" + userName + " has logged out at " + mLogout.currentTime() + "\n");
                 break;
             default:
-                System.out.println("No such option, please enter again!\n");
+                errorMessage(1);
                 break;
             }
         } while (menuOption != 4);
@@ -315,6 +321,23 @@ public class Main {
 
     }
     
+    public static void errorMessage(int type){
+    	switch (type){
+    		case 1:
+    			System.out.println("No such option, please enter again!\n");
+    		case 2:
+    			System.out.println("Invalid order list number!\n");
+    		case 3:
+    			System.out.println("Invalid quantity!\n");
+    		case 4:
+    			System.out.println("Please enter a valid number\n");
+    		case 5:
+    			System.out.println("Invalid product ID.\n");
+    		case 6:
+    			System.out.println("Not a valid employee ID.\n");
+    	}
+    	 
+    }
       
     
    

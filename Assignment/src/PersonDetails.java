@@ -1,6 +1,9 @@
 import java.io.Serializable;
 
 class PersonDetails implements Serializable {
+	
+	// Variables
+	// Protected so subclasses can access to these variables
     protected String firstName;
     protected String lastName;
     protected char gender;

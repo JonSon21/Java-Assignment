@@ -10,7 +10,7 @@ class OrderList implements Serializable {
     private ArrayList<OrderItem> orderItem = new ArrayList<>();
     private double totalAmount = 0;
     
-    //itemCount represents number of item list in order list
+    //itemCount represents number of items in orderItem array (also the order list)
     private int itemCount = 0;
     private double amount;
     
@@ -32,8 +32,10 @@ class OrderList implements Serializable {
     public boolean addOrderItem(OrderItem item) {
     	
         for (int i = 0; i < itemCount; i++) {
+        	
             //Compare product with the database
             if (orderItem.get(i).getProduct() == item.getProduct() && orderItem.get(i).stockOut(1)) {
+            	
                 //Adds amount of i element of orderItem to the totalAmount
                 totalAmount += orderItem.get(i).getAmount();
 
@@ -75,6 +77,8 @@ class OrderList implements Serializable {
         }
     }
 
+	// If it's not paid, it only shows the list of items in the cart
+	// If it's paid it prints as a receipt with the items within the cart
     public void receipt(boolean paid, double amount){
         this.amount = amount;
         if(paid) {
@@ -82,6 +86,7 @@ class OrderList implements Serializable {
             System.out.println("|  Receipt  |");
             System.out.println("=============");
         }
+        
         System.out.printf("%-4s%-30s%-9s%-7s%8s\n\n","No.","Product Name","Quantity","Price","SubTotal");
         System.out.println("===========================================================");
         for(int i = 0; i < itemCount; i++) {
@@ -91,6 +96,7 @@ class OrderList implements Serializable {
         System.out.println("===========================================================");
         System.out.printf("%-50s%8.2f\n","Total", totalAmount);
         System.out.println("===========================================================");
+        
         if(paid){
             System.out.printf("%-50s%8.2f\n","Total Paid", this.amount);
             System.out.printf("%-50s%8.2f\n","Change", this.amount - totalAmount);

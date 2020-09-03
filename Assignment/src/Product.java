@@ -8,7 +8,10 @@ class Product implements Serializable {
     private String prodType;
     private int stockQuantity;
     private double price;
-    private static int nextProdId = 1;
+    
+    // Counting the product starting from 1
+    // This is also to automatically set the product ID
+    private static int nextProdId = 1; 
 
     // Constructors (Must have prodName and price)
 

@@ -5,10 +5,13 @@ import java.util.Scanner;
 class Manager extends PersonDetails implements Serializable {
 	
 	// Variables
-    private static int nextManagerID = 1;
     private String managerID;
     private String password;
     private String jobTitle;
+    
+    // Counting the managers starting from 1
+    // This is also to automatically set the manager ID
+    private static int nextManagerID = 1;
 
     public Manager() {
     }
@@ -24,6 +27,7 @@ class Manager extends PersonDetails implements Serializable {
     // Add / Edit Products
     public boolean modifyProduct(ArrayList<Product> product, ArrayList<OrderItem> ois) {
     	
+    	Main main = new Main();
         Scanner input = new Scanner(System.in);
         
         boolean validProductId;
@@ -37,7 +41,7 @@ class Manager extends PersonDetails implements Serializable {
 
             // Validate the entered product ID
             if (inputProductId.length() != 5 || inputProductId.charAt(0) != 'P') {
-                System.out.println("Invalid product ID.\n");
+                main.errorMessage(5);
                 validProductId = false;
                 
             } else validProductId = true;
@@ -61,7 +65,7 @@ class Manager extends PersonDetails implements Serializable {
                 System.out.println("Product edited successfully.\n");
                 return true;
             } else {
-                System.out.println("Product not edited.\n");
+                System.out.println("Failed to edit product.\n");
                 return false;
             }
         }
@@ -72,22 +76,23 @@ class Manager extends PersonDetails implements Serializable {
                 System.out.println("Product added successfully.\n");
                 return true;
             } else {
-                System.out.println("Product not added.\n");
+                System.out.println("Failed to add product.\n");
                 return false;
             }
         }
     }
 
-    // Sub-method for modifyProduct method, return true if product is edited successfully
+    // Child method for modifyProduct method, return true if product is edited successfully
     private boolean editProduct(int i, ArrayList<Product> product) {
     	
+    	Main main = new Main();
         Scanner input = new Scanner(System.in);
         
         int choice = -1;
-        String stringBuf;
+        String strBuf = "";
         double doubleBuf = 0;
 
-        // Show all detail of the product
+        // Show all details of the product
         System.out.println();
         System.out.format(
                 "Product ID: %s\nProduct Name: %s\nProduct Type: %s\nStock Quantity: %d\nPrice: RM %,.2fea\n\n",
@@ -104,16 +109,15 @@ class Manager extends PersonDetails implements Serializable {
         } while (choice < 1 || choice > 4);
 
         // Use a buffer to hold the new data
-        stringBuf = "";
 
         switch (choice) {
             case 1:
                 System.out.print("Enter the new product name: ");
-                stringBuf = input.nextLine();
+                strBuf = input.nextLine();
                 break;
             case 2:
                 System.out.print("Enter the new product type: ");
-                stringBuf = input.nextLine();
+                strBuf = input.nextLine();
                 break;
             case 3:
                 do {
@@ -122,7 +126,7 @@ class Manager extends PersonDetails implements Serializable {
                         doubleBuf = input.nextDouble();
                         break;
                     } catch (Exception e) {
-                        System.out.println("\nPlease enter a digit.");
+                        main.errorMessage(4);
                         input.nextLine();
                     }
                 } while (true);
@@ -134,7 +138,7 @@ class Manager extends PersonDetails implements Serializable {
                         doubleBuf = input.nextDouble();
                         break;
                     } catch (Exception e) {
-                        System.out.println("\nPlease enter a digit.");
+                        main.errorMessage(4);
                         input.nextLine();
                     }
                 } while (true);
@@ -153,19 +157,19 @@ class Manager extends PersonDetails implements Serializable {
         } while (confirmation != 'Y' && confirmation != 'N');
 
 		
-        if (stringBuf != "") {
-            stringBuf = Character.toUpperCase(stringBuf.charAt(0)) + stringBuf.substring(1);
+        if (strBuf != "") {
+            strBuf = Character.toUpperCase(strBuf.charAt(0)) + strBuf.substring(1);
         }
 
         if (confirmation == 'Y') {
             switch (choice) {
                 case 1:
                     System.out.println();
-                    product.get(i).setProdName(stringBuf);
+                    product.get(i).setProdName(strBuf);
                     break;
                 case 2:
                     System.out.println();
-                    product.get(i).setProdType(stringBuf);
+                    product.get(i).setProdType(strBuf);
                     break;
                 case 3:
                     System.out.println();
@@ -181,7 +185,7 @@ class Manager extends PersonDetails implements Serializable {
             return true;
         }
 
-        // Return failed to edit item if user rejected the confirmation
+        // Show "Failed to edit item" if user rejected the confirmation
         else {
             return false;
         }
@@ -189,13 +193,16 @@ class Manager extends PersonDetails implements Serializable {
 
     // Sub-method for modifyProduct method, return true if added successfully
     private boolean addProduct(ArrayList<Product> p, ArrayList<OrderItem> ois) {
+    	
+    	Main main = new Main();
         Scanner input = new Scanner(System.in);
+        
         String prodName, prodType;
         int stockQuantity;
         double price;
 
-        // Prompt user to enter the detail of the new product
-        System.out.println("Product does not exist, adding new product.");
+        // Prompt user to enter the details of a new product
+        System.out.println("Product does not exist, adding a new product.");
         System.out.println("Product ID: " + String.format("P%04d",Product.getNextProdId()));
 
         System.out.print("Product Name: ");
@@ -207,12 +214,12 @@ class Manager extends PersonDetails implements Serializable {
         prodType = Character.toUpperCase(prodType.charAt(0)) + prodType.substring(1);
 
         do {
-            System.out.print("Stock Quantity: ");
+            System.out.print("Total Quantity: ");
             try {
                 stockQuantity = input.nextInt();
                 break;
             } catch (Exception e) {
-                System.out.println("\nPlease enter a digit.");
+                main.errorMessage(4);
                 input.nextLine();
             }
         } while (true);
@@ -223,12 +230,12 @@ class Manager extends PersonDetails implements Serializable {
                 price = input.nextDouble();
                 break;
             } catch (Exception e) {
-                System.out.println("\nPlease enter a digit.");
+                main.errorMessage(4);
                 input.nextLine();
             }
         } while (true);
 
-        // Get confirmation from user then put the data into the database
+        // Get confirmation from user then write the data into the files
         char confirmation;
         do {
             System.out.print("Do you really want to add the product? (Y/N): ");
@@ -242,14 +249,16 @@ class Manager extends PersonDetails implements Serializable {
             return true;
         }
 
-        // Return failed to add item if user rejected the confirmation
+        // Show "Failed to add item" if user rejected the confirmation 
         else {
             return false;
         }
     }
 
-    // Add or edit employees...
+    // Modify the Staff List (Add and Edit)
     public boolean modifyStaff(ArrayList<Employee> e) {
+    	
+    	Main main = new Main();
     	
         boolean valid;
         String inputStaffId;
@@ -263,17 +272,17 @@ class Manager extends PersonDetails implements Serializable {
 
             // Validate the entered product ID
             if (inputStaffId.length() != 5) {
-                System.out.println("Not a valid employee ID.\n");
+                main.errorMessage(6);
                 valid = false;
                 
             } else if (inputStaffId.charAt(0) != 'S'){
-                System.out.println("Not a valid employee ID.\n");
+                main.errorMessage(6);
                 valid = false;
                 
             }else valid = true;
         } while (!valid);
 
-        // Check if the employee exists
+        // Check if the employee exists within the files
         boolean staffExist = false;
         int staffIndex = -1;
         
@@ -284,7 +293,7 @@ class Manager extends PersonDetails implements Serializable {
             }
         }
 
-        // If employee exists then edit the employee
+        // If employee exists then edit the employee details
         if (staffExist) {
             if (editStaff(staffIndex, e)) {
                 System.out.println("Staff edited successfully.\n");
@@ -295,7 +304,7 @@ class Manager extends PersonDetails implements Serializable {
             }
         }
 
-        // If employee does not exist, add employee using the next employee ID
+        // If employee does not exist, add a new employee with new details
         else {
             if (addStaff(e)) {
                 System.out.println("Staff added successfully.\n");
@@ -307,10 +316,12 @@ class Manager extends PersonDetails implements Serializable {
         }
     }
 
+	// Edit Staff
     private boolean editStaff(int i, ArrayList<Employee> s) {
+    	
         Scanner input = new Scanner(System.in);
         int choice = -1;
-        String stringBuf;
+        String strBuf;
 
         // Show all details of the product
         System.out.println();
@@ -333,23 +344,23 @@ class Manager extends PersonDetails implements Serializable {
         } while (choice < 1 || choice > 6);
 
         // Use buffers to hold the new data
-        stringBuf = "";
+        strBuf = "";
         char charBuf = 'M';
 
         switch (choice) {
             case 1:
                 System.out.print("Enter the new Password: ");
-                stringBuf = input.nextLine();
+                strBuf = input.nextLine();
                 break;
             case 2:
                 System.out.print("Enter the new First Name: ");
-                stringBuf = input.nextLine();
-                stringBuf = Character.toUpperCase(stringBuf.charAt(0)) + stringBuf.substring(1);
+                strBuf = input.nextLine();
+                strBuf = Character.toUpperCase(strBuf.charAt(0)) + strBuf.substring(1);
                 break;
             case 3:
                 System.out.print("Enter the new Last Name: ");
-                stringBuf = input.nextLine();
-                stringBuf = Character.toUpperCase(stringBuf.charAt(0)) + stringBuf.substring(1);
+                strBuf = input.nextLine();
+                strBuf = Character.toUpperCase(strBuf.charAt(0)) + strBuf.substring(1);
                 break;
             case 4:
                 do {
@@ -360,14 +371,14 @@ class Manager extends PersonDetails implements Serializable {
             case 5:
                 do {
                     System.out.print("Enter the new Phone No. (0123456789): ");
-                    stringBuf = input.nextLine();
-                } while (!validPhoneNo(stringBuf));
+                    strBuf = input.nextLine();
+                } while (!validPhoneNo(strBuf));
                 break;
             case 6:
                 do {
                     System.out.print("Enter the new Email: ");
-                    stringBuf = input.nextLine();
-                } while (!validEmail(stringBuf));
+                    strBuf = input.nextLine();
+                } while (!validEmail(strBuf));
                 break;
             default:
                 break;
@@ -381,31 +392,26 @@ class Manager extends PersonDetails implements Serializable {
             input.nextLine();
         } while (confirm != 'Y' && confirm != 'N');
 
+        System.out.println();
         if (confirm == 'Y') {
             switch (choice) {
                 case 1:
-                    System.out.println();
-                    s.get(i).setPassword(stringBuf);
+                    s.get(i).setPassword(strBuf);
                     break;
                 case 2:
-                    System.out.println();
-                    s.get(i).setFirstName(stringBuf);
+                    s.get(i).setFirstName(strBuf);
                     break;
                 case 3:
-                    System.out.println();
-                    s.get(i).setLastName(stringBuf);
+                    s.get(i).setLastName(strBuf);
                     break;
                 case 4:
-                    System.out.println();
                     s.get(i).setGender(charBuf);
                     break;
                 case 5:
-                    System.out.println();
-                    s.get(i).setPhoneNo(stringBuf);
+                    s.get(i).setPhoneNo(strBuf);
                     break;
                 case 6:
-                    System.out.println();
-                    s.get(i).setEmail(stringBuf);
+                    s.get(i).setEmail(strBuf);
                     break;
                 default:
                     System.out.println("Something went wrong.");
@@ -413,12 +419,13 @@ class Manager extends PersonDetails implements Serializable {
             return true;
         }
 
-        // Return failed to edit item if user rejected the confirmation
+        // Show "Failed to edit item" if user rejected the confirmation
         else {
             return false;
         }
     }
-
+	
+	// Add Staff
     private boolean addStaff(ArrayList<Employee> s) {
         Scanner input = new Scanner(System.in);
         String password, firstName, lastName, phoneNo, email, icNo, jobTitle;
@@ -465,7 +472,8 @@ class Manager extends PersonDetails implements Serializable {
         char confirmation;
         do {
             System.out.print("Do you really want to add the staff? (Y/N): ");
-            confirmation = input.next().toUpperCase().charAt(0);
+            confirmation = input.next().charAt(0);
+            confirmation = Character.toUpperCase(confirmation);
             input.nextLine();
         } while (confirmation != 'Y' && confirmation != 'N');
 
@@ -475,12 +483,13 @@ class Manager extends PersonDetails implements Serializable {
             return true;
         }
 
-        // Return failed to add item if user rejected the confirmation
+        // Show "Failed to add item" if user rejected the confirmation
         else {
             return false;
         }
     }
-
+	
+	// Printing of the Daily Report
     public void dailyReport(ArrayList<OrderList> ol, ArrayList<Product> p) {
         int soldQuantity[] = new int[p.size()];
 
@@ -489,7 +498,7 @@ class Manager extends PersonDetails implements Serializable {
         }
 
         if (ol.size() < 1 ){
-            System.out.println("No order is exist.\n");
+            System.out.println("No existing orders.\n");
             return;
         }
 
@@ -557,7 +566,8 @@ class Manager extends PersonDetails implements Serializable {
                 + gender + ", phoneNo='" + phoneNo + '\'' + ", email='" + email + '\'' + ", icNo='" + icNo + '\'' + '}';
     }
 
-    // Validation
+    // This is to check if the gender is correct
+    // Only 'M' and 'F' can be entered
     private boolean validGender(char input) {
         if (input == 'M' || input == 'F') {
             return true;
@@ -566,11 +576,13 @@ class Manager extends PersonDetails implements Serializable {
             return false;
         }
     }
-
+	
+	// This is to check if phone number only has numbers 
+	// Only numbers are needed, symbols like dashes are not needed
     private boolean validPhoneNo(String input) {
         for (int i = 0; i < input.length(); i++) {
             if (!Character.isDigit(input.charAt(0))) {
-                System.out.println("\nPlease enter digit only.");
+                System.out.println("\nPlease enter numbers only. Dashes are not needed.");
                 return false;
             } else {
                 return true;
@@ -580,18 +592,20 @@ class Manager extends PersonDetails implements Serializable {
         return false;
     }
 
+	// This is to check if the format of the email is correct
+	// Email must contain '@' and '.'
     private boolean validEmail(String input) {
-        int atCounter = 0;
+        int aCounter = 0;
         int dotCounter = 0;
         for (int i = 0; i < input.length(); i++) {
             if (input.charAt(i) == '@') {
-                atCounter++;
+                aCounter++;
             }
             if (input.charAt(i) == '.') {
                 dotCounter++;
             }
         }
-        if (atCounter != 1 || dotCounter != 1) {
+        if (aCounter != 1 || dotCounter != 1) {
             System.out.println("\nPlease enter a valid email (address@domain.com).");
             return false;
         } else {
@@ -599,7 +613,9 @@ class Manager extends PersonDetails implements Serializable {
         }
     }
 
-    private int promptChoice(int max){
+	// This is to check if there's any exceptions 
+	// When user enters anything other than a number into the choice field
+    private int promptChoice(int m){
         int choice = -1;
         boolean valid = false;
         Scanner input = new Scanner(System.in);
@@ -609,8 +625,8 @@ class Manager extends PersonDetails implements Serializable {
             try {
                 choice = input.nextInt();
                 input.nextLine();
-                if(choice > max || choice < 1){
-                    System.out.println("\nPlease enter a number between 1 and " + max + ".");
+                if(choice > m || choice < 1){
+                    System.out.println("\nPlease enter a number between 1 and " + m + ".");
                     choice = -1;
                 }
                 valid = true;

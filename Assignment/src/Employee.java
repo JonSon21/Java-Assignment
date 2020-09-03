@@ -10,7 +10,7 @@ class Employee extends PersonDetails implements Serializable {
     private String employeeID;
     private String password;
     private Branch branch;
-
+ 
     //Constructor
     public Employee(){
     	
@@ -36,22 +36,24 @@ class Employee extends PersonDetails implements Serializable {
                 // ols.get(listNo - 1) --> ols[listNo - 1]
                 if (ols.get(list).addOrderItem(ois.get(i))) {
                 	
-                    //Show the receipt for all the items added into the cart
+                    // Show the receipt for all the items added into the cart
+                    // This is to show the updated list of items
                     ols.get(list).receipt(false, 0);
                     break;
                 }
-                // Show "No such barcode" if the product id is not found in the database
+                // Show "No such barcode / product ID" if the product id is not found in the files
             } else if (i == ois.size() - 1 && !"1".equals(productCode) && !"2".equals(productCode) && !"3".equals(productCode)) {
-                System.out.println("No such barcode.\n");
+                System.out.println("No such barcode / product ID.\n");
                 break;
             }
         }
-
+        
         int editList = -1;
         int newQuantity;
 
         // Edit Order List
         if ("2".equals(productCode)) {
+        	  Main main = new Main();
             do {
                 System.out.print("Please enter the order list number > ");
                 try {
@@ -59,10 +61,10 @@ class Employee extends PersonDetails implements Serializable {
                     
                     //Validate Error
                     if (editList < 1 || editList > ols.get(list).getItemCount()) {
-                        System.out.println("Invalid order list number!\n");
+                        main.errorMessage(2);
                     }
                 }catch(Exception e){
-                    System.out.println("Invalid order list number!\n");
+                    main.errorMessage(2);
                     scan.nextLine();
                 }
             } while (editList < 1 || editList > ols.get(list).getItemCount());
@@ -71,7 +73,7 @@ class Employee extends PersonDetails implements Serializable {
                 System.out.print("Please enter the quantity > ");
                 newQuantity = scan.nextInt();
                 if (newQuantity < 0) {
-                    System.out.println("Invalid quantity!\n");
+                    main.errorMessage(3);
                 }
             } while (newQuantity < 0);
 
@@ -111,7 +113,9 @@ class Employee extends PersonDetails implements Serializable {
     }
 
     public int displayProduct(ArrayList<OrderItem> oi){
+    	Main main = new Main();
         Scanner scan = new Scanner(System.in);
+        
         int selectProduct = -1;
         boolean valid = true;
 
@@ -134,7 +138,7 @@ class Employee extends PersonDetails implements Serializable {
                 valid = false;
             }
             if(selectProduct < 0 || selectProduct >= oi.size()){
-                System.out.println("Please enter a valid number.\n");
+                main.errorMessage(4);
                 valid = false;
             }
             else valid = true;
@@ -143,15 +147,17 @@ class Employee extends PersonDetails implements Serializable {
     }
 
     public void displayTransactionHistory(ArrayList<OrderList> ols) {
+    	Main main = new Main();
         Scanner scan = new Scanner(System.in);
+        
         int selection = -1;
         boolean valid = true;
 
         System.out.println("============================");
         System.out.println("|    Transaction History   |");
         System.out.println("============================");
-        System.out.printf("   %-4s%-10s%10s\n", "No.", "Order ID", "Total (RM)");
-        System.out.println("   =======================\n");
+        System.out.printf("%-4s%-10s%10s\n", "No.", "Order ID", "Total (RM)");
+        System.out.println("=======================\n");
         for (int i = 0; i < ols.size(); i++) {
             System.out.printf("   %-4d%-10s%10.2f\n", i + 1, ols.get(i).getOrderNo(), ols.get(i).getTotalAmount());
         }
@@ -160,13 +166,13 @@ class Employee extends PersonDetails implements Serializable {
             try{
                 selection = scan.nextInt();
                 if(selection < 1 || selection > ols.size()){
-                    System.out.println("Please enter a valid number\n");
+                    main.errorMessage(4);
                     valid = false;
                 } else {
                     valid = true;
                 }
             }catch (Exception e){
-                System.out.println("Please enter a valid number");
+                main.errorMessage(4);
                 scan.nextLine();
                 valid = false;
             }
