@@ -98,7 +98,7 @@ class Product implements Serializable {
     @Override
     public String toString() {
         return String.format(
-                "Product: {Product ID: %s\nProduct Name: %s\nProduct Type: %s\nItem Quantity: %d\nPrice: RM %,.2fea\n}", prodId,
+                "Room: {Room ID: %s\nRoom Name: %s\nRoom Type: %s\nRoom Quantity: %d\nPrice: RM %,.2fea\n}", prodId,
                 prodName, prodType, stockQuantity, price);
     }
 }

@@ -60,7 +60,7 @@ class OrderItem implements Serializable {
     @Override
     public String toString() {
         return "OrderItem{" +
-                "product=" + product +
+                "Room=" + product +
                 ", amount=" + amount +
                 ", quantity=" + quantity +
                 '}';

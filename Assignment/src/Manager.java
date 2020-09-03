@@ -511,11 +511,11 @@ class Manager extends PersonDetails implements Serializable {
 
         System.out.println("Daily Report");
         System.out.println("Date: " + ol.get(0).getFormattedDate());
-        System.out.println("----------------------------");
+        System.out.println("============================");
         System.out.printf("%-4s%-20s%-30s%-20s%-20s%-10s%-11s\n", "No.", "Product ID", "Product Name", "Stock Quantity",
                 "Sold Out", "Unit Price", "Amount");
         System.out.println(
-                "----------------------------------------------------------------------------------------------------------------");
+                "================================================================================================================");
         for (int i = 0; i < p.size(); i++) {
             System.out.format("%-4d%-20s%-30s%-20d%-20d%-10.2f%-11.2f\n", i + 1, p.get(i).getProdId(),
                     p.get(i).getProdName(), p.get(i).getStockQuantity(), soldQuantity[i],

@@ -4,6 +4,7 @@ import java.io.ObjectInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
+import java.io.IOException;
 
 public class Main {
     // Use Array to store username for logout
@@ -17,6 +18,9 @@ public class Main {
         int count = 0;
         
         boolean loginSuccess;
+        
+        
+
         
         String username = null;
         String password = null;
@@ -73,8 +77,9 @@ public class Main {
         bootupScreen();
 
         do {
+        	System.out.println("===================");
             System.out.println("Employee or Manager");
-            System.out.println("-------------------");
+            System.out.println("===================");
             System.out.println("1. Employee");
             System.out.println("2. Manager");
             System.out.println("0. Exit and update files");
@@ -88,9 +93,13 @@ public class Main {
                 employeeOrManager = -1;
             }
 
+
             if (employeeOrManager == 1 || employeeOrManager == 2) {
+            	
+           		
+         		System.out.println("==========");
                 System.out.println("Login Page");
-                System.out.println("----------");
+                System.out.println("==========");
                 System.out.print("Username: ");
                 username = scan.nextLine();
                 count++;
@@ -174,8 +183,9 @@ public class Main {
         int count = 0;
 
         do {
+        	System.out.println("============");
             System.out.println("Menu Options");
-            System.out.println("------------");
+            System.out.println("============");
             System.out.println("1. Sales Order");
             System.out.println("2. Transaction History");
             System.out.println("3. Logout");
@@ -253,8 +263,9 @@ public class Main {
         int menuOption;
 
         do {
+        	System.out.println("============");
             System.out.println("Menu Options");
-            System.out.println("------------");
+            System.out.println("============");
             System.out.println("1. Add or edit Product Detail");
             System.out.println("2. Add or edit Employee Detail");
             System.out.println("3. Daily Report");
@@ -290,15 +301,23 @@ public class Main {
     }
 
     private static void bootupScreen() {
-        System.out.println(" _                   _____                 _             ");
-        System.out.println("| |                 /  __ \\               (_)            ");
-        System.out.println("| |    _   _ _ __   | /  \\/ ___  _ __ ___  _ _ __   __ _ ");
-        System.out.println("| |   | | | | '_ \\  | |    / _ \\| '_ ` _ \\| | '_ \\ / _` |");
-        System.out.println("| |___| |_| | | | | | \\__/\\ (_) | | | | | | | | | | (_| |");
-        System.out.println("\\_____/\\__,_|_| |_|  \\____/\\___/|_| |_| |_|_|_| |_|\\__, |");
-        System.out.println("                                                    __/ |");
-        System.out.println("                                                   |___/ ");
+    	System.out.println("***********************************************************");
+        System.out.println("* _                   _____                 _             *");
+        System.out.println("*| |                 /  __ \\               (_)            *");
+        System.out.println("*| |    _   _ _ __   | /  \\/ ___  _ __ ___  _ _ __   __ _ *");
+        System.out.println("*| |   | | | | '_ \\  | |    / _ \\| '_ ` _ \\| | '_ \\ / _` |*");
+        System.out.println("*| |___| |_| | | | | | \\__/\\ (_) | | | | | | | | | | (_| |*");
+        System.out.println("*\\_____/\\__,_|_| |_|  \\____/\\___/|_| |_| |_|_|_| |_|\\__, |*");
+        System.out.println("*                                                    __/ |*");
+        System.out.println("*                                                   |___/ *");
+        System.out.println("***********************************************************");
         System.out.println("Welcome to Lun Coming Karaoke !!!\n");
 
     }
+    
+      
+    
+   
+
+
 }

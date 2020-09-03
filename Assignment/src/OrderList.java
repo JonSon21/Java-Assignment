@@ -78,6 +78,7 @@ class OrderList implements Serializable {
     public void receipt(boolean paid, double amount){
         this.amount = amount;
         if(paid) {
+        	System.out.println("=======");
             System.out.println("Receipt");
             System.out.println("=======");
         }
