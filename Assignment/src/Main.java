@@ -117,7 +117,7 @@ public class Main {
                     System.out.println("Username: " + eLogin.getUsername() + "\nEmployee Name: "
                             + employees.get(eLogin.getIndex()).getFirstName() + " "
                             + employees.get(eLogin.getIndex()).getLastName());
-                    System.out.println(eLogin.getUsername() + " has login at " + eLogin.currentTime() + "\n");
+                    System.out.println("\n" + eLogin.getUsername() + " has logged in at " + eLogin.currentTime() + "\n");
                     employeeMenuOptions(orderItem, orderLists, product);
                 } else {
                     System.out.println("Wrong username or password, please login again.\n");
@@ -131,6 +131,7 @@ public class Main {
                     System.out.println("Username: " + mLogin.getUsername() + "\nManager Name: "
                             + employees.get(mLogin.getIndex()).getFirstName() + " "
                             + employees.get(mLogin.getIndex()).getLastName());
+                    System.out.println("\n" + mLogin.getUsername() + " has logged in at " + mLogin.currentTime() + "\n");
                     managerMenuOptions(product, employees, orderItem, orderLists);
                 } else {
                     System.out.println("Wrong username or password, please login again.\n");
@@ -173,7 +174,7 @@ public class Main {
     }
 
     // Menu Options for employees
-    private static void employeeMenuOptions(ArrayList<OrderItem> orderItem, ArrayList<OrderList> orderLists, ArrayList<Product> products) {
+    private static void employeeMenuOptions(ArrayList<OrderItem> oi, ArrayList<OrderList> ols, ArrayList<Product> p) {
     	
         Scanner scan = new Scanner(System.in);
         
@@ -200,8 +201,8 @@ public class Main {
             }
             switch (option) {
             case 1:
-                // Adds elements of multipleOrderLists array
-                orderLists.add(new OrderList());
+                // Adds elements of ols array
+                ols.add(new OrderList());
                 do {
                     do {
                         System.out.print("\nEnter Item ID(1 to checkout, 2 to edit order list, 3 to display products)> ");
@@ -210,32 +211,32 @@ public class Main {
                         // If the item list in order list is empty, it will show this output (Validate
                         // error)
                         if (("1".equals(productCode) || "2".equals(productCode))
-                                && orderLists.get(orderLists.size() - 1).getItemCount() == 0) {
+                                && ols.get(ols.size() - 1).getItemCount() == 0) {
                             System.out.println("Please add some items!");
                         }
                     } while (("1".equals(productCode) || "2".equals(productCode))
-                            && orderLists.get(orderLists.size() - 1).getItemCount() == 0);
+                            && ols.get(ols.size() - 1).getItemCount() == 0);
 
-                    // Modify the current element of multipleOrderLists array
-                    orderLists.set(orderLists.size() - 1,
-                            employee.modifyOrderList(productCode, orderItem, orderLists, orderLists.size() - 1));
+                    // Modify the current element of ols array
+                    ols.set(ols.size() - 1,
+                            employee.modifyOrderList(productCode, oi, ols, ols.size() - 1));
                             
                 } while (!"1".equals(productCode)); // Loop if user is not checking out
 
                 // After checking out, it goes to payment
-                employee.payment(orderLists.get(orderLists.size() - 1));
+                employee.payment(ols.get(ols.size() - 1));
                 
                 //Update products details with order items details
-                for(int i = 0; i < products.size(); i++){
+                for(int i = 0; i < p.size(); i++){
                 	
-                    //Equivalent to products[i] = orderItem[i].getProduct();
-                    products.set(i, orderItem.get(i).getProduct());
+                    // p[i] = oi[i].getProduct(); 
+                    p.set(i, oi.get(i).getProduct());
                 }
                 break;
                 
             case 2:
-                if (orderLists.size() != 0) {
-                    employee.displayTransactionHistory(orderLists);
+                if (ols.size() != 0) {
+                    employee.displayTransactionHistory(ols);
                 } else {
                     System.out.println("No Transaction History!\n");
                 }
@@ -252,7 +253,7 @@ public class Main {
         } while (option != 3);
     }
 
-    private static void managerMenuOptions(ArrayList<Product> products, ArrayList<Employee> employees, ArrayList<OrderItem> orderItems, ArrayList<OrderList> orderLists) {
+    private static void managerMenuOptions(ArrayList<Product> p, ArrayList<Employee> employees, ArrayList<OrderItem> ois, ArrayList<OrderList> ols) {
         Scanner scan = new Scanner(System.in);
         Manager manager = new Manager();
 
@@ -276,16 +277,16 @@ public class Main {
             }
             switch (menuOption) {
             case 1:
-                manager.modifyProduct(products, orderItems);
-                for(int i = 0; i < products.size(); i++){
-                    orderItems.get(i).setProduct(products.get(i));
+                manager.modifyProduct(p, ois);
+                for(int i = 0; i < p.size(); i++){
+                    ois.get(i).setProduct(p.get(i));
                 }
                 break;
             case 2:
                 manager.modifyStaff(employees);
                 break;
             case 3:
-                manager.dailyReport(orderLists, products);
+                manager.dailyReport(ols, p);
                 break;
             case 4:
             	Logout mLogout = new Logout(); 
