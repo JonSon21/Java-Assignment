@@ -82,9 +82,11 @@ class OrderList implements Serializable {
     public void receipt(boolean paid, double amount){
         this.amount = amount;
         if(paid) {
-        	System.out.println("=============");
-            System.out.println("|  Receipt  |");
-            System.out.println("=============");
+        	System.out.println("====================================================");
+            System.out.println("|                      Receipt                     |");
+            System.out.println("|  Kampus Utama, Jalan Genting Kelang, 53300 Kuala |");
+            System.out.println("|      Lumpur, Wilayah Persekutuan Kuala Lumpur    |");
+            System.out.println("====================================================");
         }
         
         System.out.printf("%-4s%-30s%-9s%-7s%8s\n\n","No.","Product Name","Quantity","Price","SubTotal");
