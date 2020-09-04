@@ -85,13 +85,8 @@ class PersonDetails implements Serializable {
     // Override toString()
     @Override
     public String toString() {
-        return "PersonDetails{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", gender=" + gender +
-                ", phoneNo='" + phoneNo + '\'' +
-                ", email='" + email + '\'' +
-                ", icNo='" + icNo + '\'' +
-                '}';
+        return String.format(
+        		"PersonDetails: firstName:  %s\nlastName: %s\ngender: %c\nphoneNo: %s\nemail: %s\nicNo: %s\n", 
+				 firstName, lastName, gender, phoneNo, email, icNo);
     }
 }

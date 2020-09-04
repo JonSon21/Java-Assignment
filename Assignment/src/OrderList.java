@@ -17,14 +17,15 @@ class OrderList implements Serializable {
     //Initialize local date time object
     private String formattedDate;
 
-
     public OrderList() {
     	
-        LocalDateTime dateObj = LocalDateTime.now();
-        DateTimeFormatter formatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    	// Get Current Time
+        LocalDateTime dObj = LocalDateTime.now();
+        DateTimeFormatter fObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        // Changes the date time format to dd-MM-yyyy HH:mm:ss
+        formattedDate = dObj.format(fObj);
         
-        //Changes the date time format to dd-MM-yyyy HH:mm:ss
-        formattedDate = dateObj.format(formatObj);
+        // Setting up orderNo
         this.orderNo = String.format("I%06d", nextOrderNo++);
     }
 

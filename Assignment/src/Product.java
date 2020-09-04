@@ -15,18 +15,18 @@ class Product implements Serializable {
 
     // Constructors (Must have prodName and price)
 
-    // Constructor with all data available without prodId
-    public Product(String productName, String productType, double price, int itemQuantity) {
-        this.prodId = String.format("P%04d", nextProdId++);
+	// Constructor with all data available
+    public Product(String productId, String productName, String productType, double price, int itemQuantity) {
+        this.prodId = productId;
         this.prodName = productName;
         this.prodType = productType;
         this.stockQuantity = itemQuantity;
         this.price = price;
     }
-	
-	// Constructor with all data available
-    public Product(String productId, String productName, String productType, double price, int itemQuantity) {
-        this.prodId = productId;
+    
+    // Constructor with all data available without prodId
+    public Product(String productName, String productType, double price, int itemQuantity) {
+        this.prodId = String.format("P%04d", nextProdId++);
         this.prodName = productName;
         this.prodType = productType;
         this.stockQuantity = itemQuantity;
@@ -99,7 +99,7 @@ class Product implements Serializable {
     @Override
     public String toString() {
         return String.format(
-                "Room: {Room ID: %s\nRoom Name: %s\nRoom Type: %s\nRoom Quantity: %d\nPrice: RM %,.2fea\n}", prodId,
-                prodName, prodType, stockQuantity, price);
+                "Room ID: %s\nRoom Name: %s\nRoom Type: %s\nRoom Quantity: %d\nPrice: RM %,.2fea\n}", 
+                prodId, prodName, prodType, stockQuantity, price);
     }
 }
