@@ -25,6 +25,7 @@ class Product implements Serializable {
     }
     
     // Constructor with all data available without prodId
+    // This is for new products
     public Product(String productName, String productType, double price, int itemQuantity) {
         this.prodId = String.format("P%04d", nextProdId++);
         this.prodName = productName;

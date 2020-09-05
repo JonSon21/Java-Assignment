@@ -176,7 +176,7 @@ public class Main {
         }
     }
 
-    private static void managerMenuOptions(ArrayList<Product> p, ArrayList<Employee> e, ArrayList<OrderItem> ois, ArrayList<OrderList> ols) {
+    private static void managerMenuOptions(ArrayList<Product> p, ArrayList<Employee> em, ArrayList<OrderItem> ois, ArrayList<OrderList> ols) {
         Scanner scan = new Scanner(System.in);
         Manager manager = new Manager();
 
@@ -200,7 +200,7 @@ public class Main {
             }
             switch (menuOption) {
             case 1:
-            	manager.modifyStaff(e);
+            	manager.modifyStaff(em);
                 break;
             case 2:
                 manager.modifyProduct(p, ois);

@@ -1,7 +1,7 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 class OrderList implements Serializable {
 

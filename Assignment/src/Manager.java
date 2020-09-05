@@ -30,7 +30,7 @@ class Manager extends PersonDetails implements Serializable {
     	Main main = new Main();
         Scanner input = new Scanner(System.in);
         
-        boolean validProductId;
+        boolean validProductId = false;
         String inputProductId;
 
         do {
