@@ -331,7 +331,6 @@ public class Main {
     		case 5:
     			System.out.println("Invalid product ID.\n");
     			break;
-    			
     		case 6:
     			System.out.println("Not a valid employee ID.\n");
     			break;

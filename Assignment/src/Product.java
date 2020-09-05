@@ -99,8 +99,6 @@ class Product implements Serializable {
     // Override toString()
     @Override
     public String toString() {
-        return String.format(
-                "Room ID: %s\nRoom Name: %s\nRoom Type: %s\nRoom Quantity: %d\nPrice: RM %,.2fea\n}", 
-                prodId, prodName, prodType, stockQuantity, price);
+        return String.format("%-11s%-20s%20s%15d%10.2f\n",prodId,prodName,prodType,stockQuantity,price);
     }
 }

@@ -31,7 +31,6 @@ class OrderItem implements Serializable {
         }
     }
     
-    
     //Setter
     public void setProduct(Product product) {
         this.product = product;
