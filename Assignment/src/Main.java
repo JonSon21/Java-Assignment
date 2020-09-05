@@ -77,7 +77,7 @@ public class Main {
         Product.setNextProdId(product.size() + 1);
 
 		// Starting Point
-        bootupScreen();
+        startingScreen();
 
 		// Employee or Manager
         do {
@@ -268,12 +268,11 @@ public class Main {
                             
                 } while (!"1".equals(productCode)); // Loop if user is not checking out
 
-                // After checking out, it goes to payment
+                // It goes to payment
                 employee.payment(ols.get(ols.size() - 1));
                 
-                //Update products details with order items details
+                // Update products details with order items details
                 for(int i = 0; i < p.size(); i++){
-                	
                     // p[i] = oi[i].getProduct(); 
                     p.set(i, oi.get(i).getProduct());
                 }
@@ -299,8 +298,8 @@ public class Main {
     }
 
 
-	// Bootup Screen
-    private static void bootupScreen() {
+	// Starting Screen
+    private static void startingScreen() {
     	System.out.println("***********************************************************");
         System.out.println("* _                   _____                 _             *");
         System.out.println("*| |                 /  __ \\               (_)            *");

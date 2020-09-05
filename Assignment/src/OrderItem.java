@@ -13,33 +13,7 @@ class OrderItem implements Serializable {
         amount = p.getPrice() * quantity;
     }
 
-    //Getter
-    public Product getProduct() {
-        return product;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    //Setter
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public boolean stockOut(int quantity){
+	public boolean stockOut(int quantity){
     	
         //To check if the stock quantity is enough
         if(product.getStockQuantity()>= quantity){
@@ -55,6 +29,33 @@ class OrderItem implements Serializable {
             System.out.println("Out of stock.");
             return false;
         }
+    }
+    
+    
+    //Setter
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    
+    //Getter
+    public Product getProduct() {
+        return product;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     // Override toString()
