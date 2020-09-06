@@ -60,11 +60,8 @@ class OrderItem implements Serializable {
     // Override toString()
     @Override
     public String toString() {
-        return "OrderItem{" +
-                "Room=" + product +
-                ", amount=" + amount +
-                ", quantity=" + quantity +
-                '}';
+    	
+    	return String.format("%-30s%-9d%-7.2f%-8.2f",getProduct().getProdName(), quantity, 
+            	getProduct().getPrice(),getProduct().getPrice() * quantity);
     }
-
 }
