@@ -23,7 +23,7 @@ class OrderItem implements Serializable {
             //Deduct the product stock quantity
             product.setStockQuantity(product.getStockQuantity()- quantity); 
             this.quantity ++;
-            amount = quantity * product.getPrice();
+            amount = quantity*product.getPrice();
             return true;
             
         }

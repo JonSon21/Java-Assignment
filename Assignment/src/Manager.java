@@ -25,7 +25,7 @@ class Manager extends PersonDetails implements Serializable {
     }
 
     // Add / Edit Products
-    public boolean modifyProduct(ArrayList<Product> product, ArrayList<OrderItem> ois) {
+    public boolean modifyProduct(ArrayList<Product> p, ArrayList<OrderItem> ois) {
     	
     	Main main = new Main();
         Scanner input = new Scanner(System.in);
@@ -52,8 +52,8 @@ class Manager extends PersonDetails implements Serializable {
         boolean productExist = false;
         int productIndex = -1;
         
-        for (int i = 0; i < product.size(); i++) {
-            if (inputProductId.equalsIgnoreCase(product.get(i).getProdId())) {
+        for (int i = 0; i < p.size(); i++) {
+            if (inputProductId.equalsIgnoreCase(p.get(i).getProdId())) {
                 productExist = true;
                 productIndex = i;
             }
@@ -61,7 +61,7 @@ class Manager extends PersonDetails implements Serializable {
 
         // If product exists then edit the product
         if (productExist) {
-            if (editProduct(productIndex, product)) {
+            if (editProduct(productIndex, p)) {
                 System.out.println("Product edited successfully.\n");
                 return true;
             } else {
@@ -72,7 +72,7 @@ class Manager extends PersonDetails implements Serializable {
 
         // If product does not exist, add product using the new given product ID
         else {
-            if (addProduct(product, ois)) {
+            if (addProduct(p, ois)) {
                 System.out.println("Product added successfully.\n");
                 return true;
             } else {
@@ -83,7 +83,7 @@ class Manager extends PersonDetails implements Serializable {
     }
 
     // Child method for modifyProduct method, return true if product is edited successfully
-    private boolean editProduct(int i, ArrayList<Product> product) {
+    private boolean editProduct(int i, ArrayList<Product> p) {
     	
     	Main main = new Main();
         Scanner input = new Scanner(System.in);
@@ -96,8 +96,8 @@ class Manager extends PersonDetails implements Serializable {
         System.out.println();
         System.out.format(
                 "Product ID: %s\nRoom/Product Name: %s\nPax: %s\nQuantity: %d\nPrice: RM %,.2fea\n\n",
-                product.get(i).getProdId(), product.get(i).getProdName(), product.get(i).getProdType(),
-                product.get(i).getStockQuantity(), product.get(i).getPrice());
+                p.get(i).getProdId(), p.get(i).getProdName(), p.get(i).getProdType(),
+                p.get(i).getStockQuantity(), p.get(i).getPrice());
 
         do {
             // Prompt user to select a part to edit
@@ -165,19 +165,19 @@ class Manager extends PersonDetails implements Serializable {
             switch (choice) {
                 case 1:
                     System.out.println();
-                    product.get(i).setProdName(strBuf);
+                    p.get(i).setProdName(strBuf);
                     break;
                 case 2:
                     System.out.println();
-                    product.get(i).setProdType(strBuf);
+                    p.get(i).setProdType(strBuf);
                     break;
                 case 3:
                     System.out.println();
-                    product.get(i).setStockQuantity((int) doubleBuf);
+                    p.get(i).setStockQuantity((int) doubleBuf);
                     break;
                 case 4:
                     System.out.println();
-                    product.get(i).setPrice((int) doubleBuf);
+                    p.get(i).setPrice((int) doubleBuf);
                     break;
                 default:
                     System.out.println("Something went wrong.");

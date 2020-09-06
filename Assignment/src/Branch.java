@@ -12,6 +12,12 @@ class Branch implements Serializable {
 
     //Constructor
     public Branch() {
+<<<<<<< HEAD
+=======
+    	this.branchId = new String("null");
+    	this.branchName = new String ("n/a");
+    	this.manager = new Manager(new PersonDetails("n/a","n/a",'n',"n/a","n/a", "n/a"),"n/a","n/a");
+>>>>>>> d580e49b6908b95c6235a7ba7b4637bd235048f2
     }
 
     public Branch(String branchName, Manager manager) {
