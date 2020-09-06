@@ -14,7 +14,7 @@ class OrderList implements Serializable {
     private int itemCount = 0;
     private double amount;
     
-    //Initialize local date time object
+    //Initialize local date time objectS
     private String formattedDate;
 
     public OrderList() {
