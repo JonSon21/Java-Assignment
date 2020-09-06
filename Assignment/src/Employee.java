@@ -119,7 +119,7 @@ class Employee extends PersonDetails implements Serializable {
         int selectProduct = -1;
         boolean valid = true;
 
-<<<<<<< HEAD
+
         System.out.printf("%-3s%-11s%-20s%20s%15s%10s\n%s\n","No", "Room ID", "Room(per hour)/Product", "Pax", "Quantity", "Price","===============================================================================");
 
      
