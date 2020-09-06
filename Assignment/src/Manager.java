@@ -95,15 +95,15 @@ class Manager extends PersonDetails implements Serializable {
         // Show all details of the product
         System.out.println();
         System.out.format(
-                "Product ID: %s\nProduct Name: %s\nProduct Type: %s\nStock Quantity: %d\nPrice: RM %,.2fea\n\n",
+                "Product ID: %s\nRoom/Product Name: %s\nPax: %s\nQuantity: %d\nPrice: RM %,.2fea\n\n",
                 product.get(i).getProdId(), product.get(i).getProdName(), product.get(i).getProdType(),
                 product.get(i).getStockQuantity(), product.get(i).getPrice());
 
         do {
             // Prompt user to select a part to edit
-            System.out.println("1. Product Name");
-            System.out.println("2. Product Type");
-            System.out.println("3. Stock Quantity");
+            System.out.println("1. Room/Product Name");
+            System.out.println("2. Pax");
+            System.out.println("3. Quantity");
             System.out.println("4. Product Price");
             choice = promptChoice(4);
         } while (choice < 1 || choice > 4);
