@@ -32,7 +32,7 @@ class Employee extends PersonDetails implements Serializable {
             // Compare product id with existing products
             if (ois.get(i).getProduct().getProdId().equals(productCode)) {
             	
-                // To check if the addOrderItem function is successful. 
+                // To check if the addOrderItem function is functional 
                 // ols.get(listNo - 1) --> ols[listNo - 1]
                 if (ols.get(list).addOrderItem(ois.get(i))) {
                 	
@@ -119,14 +119,9 @@ class Employee extends PersonDetails implements Serializable {
         int selectProduct = -1;
         boolean valid = true;
 
-        System.out.printf("%-3s%-11s%-20s%-20s%15s%10s\n%s\n","No", "Room ID", "Room Name", "Room Type", "Room Quantity", "Price","===============================================================================");
+        System.out.printf("%-3s%-11s%-20s%20s%15s%10s\n%s\n","No", "Room ID", "Room/Product", "Pax", "Quantity", "Price","===============================================================================");
         for(int i = 0; i < oi.size(); i++){
-            System.out.printf("%-3d%-11s%-20s%-20s%15d%10.2f\n", i + 1,
-                    oi.get(i).getProduct().getProdId(),
-                    oi.get(i).getProduct().getProdName(),
-                    oi.get(i).getProduct().getProdType(),
-                    oi.get(i).getProduct().getStockQuantity(),
-                    oi.get(i).getProduct().getPrice());
+            System.out.printf("%-3d" + oi.get(i).getProduct().toString(), (i+1));        
         }
 
         do {
@@ -157,12 +152,12 @@ class Employee extends PersonDetails implements Serializable {
         System.out.println("|    Transaction History   |");
         System.out.println("============================");
         System.out.printf("%-4s%-10s%10s\n", "No.", "Order ID", "Total (RM)");
-        System.out.println("=======================\n");
+        System.out.println("========================\n");
         for (int i = 0; i < ols.size(); i++) {
-            System.out.printf("   %-4d%-10s%10.2f\n", i + 1, ols.get(i).getOrderNo(), ols.get(i).getTotalAmount());
+            System.out.printf("%-4d%-10s%10.2f\n", i + 1, ols.get(i).getOrderNo(), ols.get(i).getTotalAmount());
         }
         do {
-            System.out.print("Please select to display details: ");
+            System.out.print("\nPlease select to display details: ");
             try{
                 selection = scan.nextInt();
                 if(selection < 1 || selection > ols.size()){
@@ -219,16 +214,7 @@ class Employee extends PersonDetails implements Serializable {
     // Override toString()
     @Override
     public String toString() {
-        return "Employee{" +
-                "employeeID='" + employeeID + '\'' +
-                ", password='" + password + '\'' +
-                ", branch=" + branch +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", gender=" + gender +
-                ", phoneNo='" + phoneNo + '\'' +
-                ", email='" + email + '\'' +
-                ", icNo='" + icNo + '\'' +
-                '}';
+        return String.format("Staff ID: %s\nPassword: %s\nBranch: %s\nFirst Name: %s\nLast Name: %s\nGender: %s\nPhone No: %s\nEmail: %s\nIc No: %s\n",
+                employeeID,password,branch.getBranchName(),firstName,lastName,gender,phoneNo, email, icNo);
     }
 }

@@ -77,15 +77,15 @@ public class Main {
         Product.setNextProdId(product.size() + 1);
 
 		// Starting Point
-        bootupScreen();
+        startingScreen();
 
 		// Employee or Manager
         do {
         	System.out.println("=====================");
             System.out.println("|Employee or Manager|");
             System.out.println("=====================");
-            System.out.println("1. Employee");
-            System.out.println("2. Manager");
+            System.out.println("1. Manager");
+            System.out.println("2. Employee");
             System.out.println("0. Exit and update files");
             System.out.print("> ");
 
@@ -99,16 +99,11 @@ public class Main {
 			
             if (employeeOrManager == 1 || employeeOrManager == 2) {
 
-            	 
            		System.out.println("============");
                 System.out.println("|Login Page|");
                 System.out.println("============");
-
-            		
-         		
                 System.out.print("Username: ");
                 username = scan.nextLine();
-
                 System.out.print("Password: ");
                 password = scan.nextLine();
             }
@@ -117,32 +112,30 @@ public class Main {
             switch (employeeOrManager) {
             case 1:
             	
-            	// Employee Login
-                Login eLogin = new Login(username, password);
-                loginSuccess = eLogin.employeeLogin(employees);
-                if (loginSuccess) {
-                    System.out.println("Log in successful.\n");
-                    System.out.println("Username: " + eLogin.getUsername() + "\nEmployee Name: "
-                            + employees.get(eLogin.getIndex()).getFirstName() + " "
-                            + employees.get(eLogin.getIndex()).getLastName());
-                    System.out.println("\n" + eLogin.getUsername() + " has logged in at " + eLogin.currentTime() + "\n");
-                    employeeMenuOptions(orderItem, orderLists, product);
-                } else {
-                    System.out.println("Wrong username or password, please login again.\n");
-                }
-                break;
-            case 2:
-            	
             	// Manager Login
                 Login mLogin = new Login(username, password);
                 loginSuccess = mLogin.managerLogin(manager);
                 if (loginSuccess) {
                     System.out.println("Log in successful.\n");
                     System.out.println("Username: " + mLogin.getUsername() + "\nManager Name: "
-                            + employees.get(mLogin.getIndex()).getFirstName() + " "
-                            + employees.get(mLogin.getIndex()).getLastName());
+                            + employees.get(mLogin.getIndex()).getFirstName() + " " + employees.get(mLogin.getIndex()).getLastName());
                     System.out.println("\n" + mLogin.getUsername() + " has logged in at " + mLogin.currentTime() + "\n");
                     managerMenuOptions(product, employees, orderItem, orderLists);
+                } else {
+                    System.out.println("Wrong username or password, please login again.\n");
+                }
+                break;
+            case 2:
+            	
+                // Employee Login
+                Login eLogin = new Login(username, password);
+                loginSuccess = eLogin.employeeLogin(employees);
+                if (loginSuccess) {
+                    System.out.println("Log in successful.\n");
+                    System.out.println("Username: " + eLogin.getUsername() + "\nEmployee Name: "
+                            + employees.get(eLogin.getIndex()).getFirstName() + " " + employees.get(eLogin.getIndex()).getLastName());
+                    System.out.println("\n" + eLogin.getUsername() + " has logged in at " + eLogin.currentTime() + "\n");
+                    employeeMenuOptions(orderItem, orderLists, product);
                 } else {
                     System.out.println("Wrong username or password, please login again.\n");
                 }
@@ -183,6 +176,52 @@ public class Main {
         }
     }
 
+    private static void managerMenuOptions(ArrayList<Product> p, ArrayList<Employee> em, ArrayList<OrderItem> ois, ArrayList<OrderList> ols) {
+        Scanner scan = new Scanner(System.in);
+        Manager manager = new Manager();
+
+        int menuOption;
+
+        do {
+        	System.out.println("===============");
+            System.out.println("|Menu Options|");
+            System.out.println("===============");
+            System.out.println("1. Add or edit Employee Detail");
+            System.out.println("2. Add or edit Product Detail");
+            System.out.println("3. Report for the day");
+            System.out.println("4. Logout");
+            System.out.print("> ");
+
+            try {
+                menuOption = scan.nextInt();
+            } catch (Exception e) {
+                scan.nextLine();
+                menuOption = -1;
+            }
+            switch (menuOption) {
+            case 1:
+            	manager.modifyStaff(em);
+                break;
+            case 2:
+                manager.modifyProduct(p, ois);
+                for(int i = 0; i < p.size(); i++){
+                    ois.get(i).setProduct(p.get(i));
+                }
+                break;
+            case 3:
+                manager.dailyReport(ols, p);
+                break;
+            case 4:
+            	Logout mLogout = new Logout(); 
+            	System.out.println("\n" + userName + " has logged out at " + mLogout.currentTime() + "\n");
+                break;
+            default:
+                errorMessage(1);
+                break;
+            }
+        } while (menuOption != 4);
+    }
+    
     // Menu Options for employees
     private static void employeeMenuOptions(ArrayList<OrderItem> oi, ArrayList<OrderList> ols, ArrayList<Product> p) {
     	
@@ -218,27 +257,22 @@ public class Main {
                         System.out.print("\nEnter Item ID(1 to checkout, 2 to edit order list, 3 to display products)> ");
                         productCode = scan.nextLine();
 
-                        // If the item list in order list is empty, it will show this output (Validate
-                        // error)
-                        if (("1".equals(productCode) || "2".equals(productCode))
-                                && ols.get(ols.size() - 1).getItemCount() == 0) {
-                            System.out.println("Please add some items!");
+                        // If the item list in order list is empty, it will show error output 
+                        if (("1".equals(productCode) || "2".equals(productCode)) && ols.get(ols.size() - 1).getItemCount() == 0) {
+                            System.out.println("Please add at least an item!");
                         }
-                    } while (("1".equals(productCode) || "2".equals(productCode))
-                            && ols.get(ols.size() - 1).getItemCount() == 0);
+                    } while (("1".equals(productCode) || "2".equals(productCode))&& ols.get(ols.size() - 1).getItemCount() == 0);
 
                     // Modify the current element of ols array
-                    ols.set(ols.size() - 1,
-                            employee.modifyOrderList(productCode, oi, ols, ols.size() - 1));
+                    ols.set(ols.size() - 1, employee.modifyOrderList(productCode, oi, ols, ols.size() - 1));
                             
                 } while (!"1".equals(productCode)); // Loop if user is not checking out
 
-                // After checking out, it goes to payment
+                // It goes to payment
                 employee.payment(ols.get(ols.size() - 1));
                 
-                //Update products details with order items details
+                // Update products details with order items details
                 for(int i = 0; i < p.size(); i++){
-                	
                     // p[i] = oi[i].getProduct(); 
                     p.set(i, oi.get(i).getProduct());
                 }
@@ -248,7 +282,7 @@ public class Main {
                 if (ols.size() != 0) {
                     employee.displayTransactionHistory(ols);
                 } else {
-                    System.out.println("No Transaction History!\n");
+                    System.out.println("No Existing Transaction History!\n");
                 }
                 break;
                 
@@ -263,54 +297,9 @@ public class Main {
         } while (option != 3);
     }
 
-    private static void managerMenuOptions(ArrayList<Product> p, ArrayList<Employee> employees, ArrayList<OrderItem> ois, ArrayList<OrderList> ols) {
-        Scanner scan = new Scanner(System.in);
-        Manager manager = new Manager();
 
-        int menuOption;
-
-        do {
-        	System.out.println("===============");
-            System.out.println("|Menu Options|");
-            System.out.println("===============");
-            System.out.println("1. Add or edit Product Detail");
-            System.out.println("2. Add or edit Employee Detail");
-            System.out.println("3. Daily Report");
-            System.out.println("4. Logout");
-            System.out.print("> ");
-
-            try {
-                menuOption = scan.nextInt();
-            } catch (Exception e) {
-                scan.nextLine();
-                menuOption = -1;
-            }
-            switch (menuOption) {
-            case 1:
-                manager.modifyProduct(p, ois);
-                for(int i = 0; i < p.size(); i++){
-                    ois.get(i).setProduct(p.get(i));
-                }
-                break;
-            case 2:
-                manager.modifyStaff(employees);
-                break;
-            case 3:
-                manager.dailyReport(ols, p);
-                break;
-            case 4:
-            	Logout mLogout = new Logout(); 
-            	System.out.println("\n" + userName + " has logged out at " + mLogout.currentTime() + "\n");
-                break;
-            default:
-                errorMessage(1);
-                break;
-            }
-        } while (menuOption != 4);
-    }
-
-	// Bootup Screen
-    private static void bootupScreen() {
+	// Starting Screen
+    private static void startingScreen() {
     	System.out.println("***********************************************************");
         System.out.println("* _                   _____                 _             *");
         System.out.println("*| |                 /  __ \\               (_)            *");
@@ -342,7 +331,6 @@ public class Main {
     		case 5:
     			System.out.println("Invalid product ID.\n");
     			break;
-    			
     		case 6:
     			System.out.println("Not a valid employee ID.\n");
     			break;

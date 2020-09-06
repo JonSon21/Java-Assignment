@@ -30,7 +30,7 @@ class Manager extends PersonDetails implements Serializable {
     	Main main = new Main();
         Scanner input = new Scanner(System.in);
         
-        boolean validProductId;
+        boolean validProductId = false;
         String inputProductId;
 
         do {
@@ -323,14 +323,9 @@ class Manager extends PersonDetails implements Serializable {
         int choice = -1;
         String strBuf;
 
-        // Show all details of the product
+        // Show all details of the staff
         System.out.println();
-        System.out.format(
-                "Staff ID: %s\nPassword: %s\nBranch: %s\nFirst Name: %s\nLast Name: %s\nGender: %s\nPhone No: %s\nEmail: %s\nIc No: %s\n",
-                s.get(i).getEmployeeID(), s.get(i).getPassword(), s.get(i).getBranch().getBranchName(),
-                s.get(i).getFirstName(), s.get(i).getLastName(), s.get(i).getGender(),
-                s.get(i).getPhoneNo(), s.get(i).getEmail(), s.get(i).getIcNo());
-        System.out.println();
+        System.out.println(s.get(i).toString());
 
         // Prompt user to select which part to be edited
         do {

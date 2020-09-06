@@ -1,7 +1,7 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 class OrderList implements Serializable {
 
@@ -93,8 +93,7 @@ class OrderList implements Serializable {
         System.out.printf("%-4s%-30s%-9s%-7s%8s\n\n","No.","Product Name","Quantity","Price","SubTotal");
         System.out.println("===========================================================");
         for(int i = 0; i < itemCount; i++) {
-            System.out.printf("%-4d%-30s%-9d%-7.2f%-8.2f\n", i+1, orderItem.get(i).getProduct().getProdName(), orderItem.get(i).getQuantity(), orderItem.get(i).getProduct().getPrice(),
-                                                                  orderItem.get(i).getProduct().getPrice() * orderItem.get(i).getQuantity());
+            System.out.printf("%-4d" + orderItem.get(i).toString() + "\n", i+1);
         }
         System.out.println("===========================================================");
         System.out.printf("%-50s%8.2f\n","Total", totalAmount);
