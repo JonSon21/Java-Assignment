@@ -43,7 +43,6 @@ class OrderList implements Serializable {
                 return true;
             }
         }
-
         try{
             //Adds element to the orderItem Array
             orderItem.add(item);
