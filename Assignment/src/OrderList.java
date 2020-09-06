@@ -89,7 +89,7 @@ class OrderList implements Serializable {
             System.out.println("====================================================");
         }
         
-        System.out.printf("%-4s%-30s%-9s%-7s%8s\n\n","No.","Product Name","Quantity","Price","SubTotal");
+        System.out.printf("%-4s%-30s%-9s%-7s%8s\n","No.","Product Name","Quantity","Price","SubTotal");
         System.out.println("===========================================================");
         for(int i = 0; i < itemCount; i++) {
             System.out.printf("%-4d" + orderItem.get(i).toString() + "\n", i+1);

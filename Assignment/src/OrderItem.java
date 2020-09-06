@@ -63,7 +63,7 @@ class OrderItem implements Serializable {
     @Override
     public String toString() {
     	
-    	return String.format("%-30s%-9d%-7.2f%-8.2f",getProduct().getProdName(), quantity, 
+    	return String.format("%-30s%-9d%-7.2f%8.2f",getProduct().getProdName(), quantity, 
             	getProduct().getPrice(),getProduct().getPrice() * quantity);
     }
 }
