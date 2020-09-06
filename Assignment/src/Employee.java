@@ -43,7 +43,7 @@ class Employee extends PersonDetails implements Serializable {
                 }
                 // Show "No such barcode / product ID" if the product id is not found in the files
             } else if (i == ois.size() - 1 && !"1".equals(productCode) && !"2".equals(productCode) && !"3".equals(productCode)) {
-                System.out.println("No such barcode / product ID.\n");
+                System.out.println("No such product ID.\n");
                 break;
             }
         }
@@ -119,7 +119,7 @@ class Employee extends PersonDetails implements Serializable {
         int selectProduct = -1;
         boolean valid = true;
 
-        System.out.printf("%-3s%-11s%-20s%20s%15s%10s\n%s\n","No", "Room ID", "Room(per hour)/Product", "Pax", "Quantity", "Price","===============================================================================");
+        System.out.printf("%-3s%-11s%-20s%18s%15s%10s\n%s\n","No", "Room ID", "Room(per hour)/Product", "Pax", "Quantity", "Price","===============================================================================");
         
         for(int i = 0; i < oi.size(); i++){
             System.out.printf("%-3d" + oi.get(i).getProduct().toString(), (i+1));        
