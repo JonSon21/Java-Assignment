@@ -119,7 +119,10 @@ class Employee extends PersonDetails implements Serializable {
         int selectProduct = -1;
         boolean valid = true;
 
-        System.out.printf("\n%-3s%-11s%-22s%20s%15s%10s\n%s\n","No", "Room ID", "Room/Product", "Pax", "Quantity", "Price","===============================================================================");
+<<<<<<< HEAD
+        System.out.printf("%-3s%-11s%-20s%20s%15s%10s\n%s\n","No", "Room ID", "Room(per hour)/Product", "Pax", "Quantity", "Price","===============================================================================");
+
+     
         for(int i = 0; i < oi.size(); i++){
             System.out.printf("%-3d" + oi.get(i).getProduct().toString(), (i+1));        
         }
