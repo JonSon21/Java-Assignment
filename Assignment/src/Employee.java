@@ -154,10 +154,10 @@ class Employee extends PersonDetails implements Serializable {
         System.out.printf("%-4s%-10s%10s\n", "No.", "Order ID", "Total (RM)");
         System.out.println("=======================\n");
         for (int i = 0; i < ols.size(); i++) {
-            System.out.printf("   %-4d%-10s%10.2f\n", i + 1, ols.get(i).getOrderNo(), ols.get(i).getTotalAmount());
+            System.out.printf(" %-4d%-10s%10.2f\n", i + 1, ols.get(i).getOrderNo(), ols.get(i).getTotalAmount());
         }
         do {
-            System.out.print("Please select to display details: ");
+            System.out.print("\nPlease select to display details: ");
             try{
                 selection = scan.nextInt();
                 if(selection < 1 || selection > ols.size()){
