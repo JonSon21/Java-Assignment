@@ -6,6 +6,8 @@ class OrderItem implements Serializable {
     private int quantity = 0;
 
     public OrderItem() {
+    	this.product = new Product("n/a","n/a","n/a",0,0);
+    	amount = 0;
     }
 
     public OrderItem(Product p) {
